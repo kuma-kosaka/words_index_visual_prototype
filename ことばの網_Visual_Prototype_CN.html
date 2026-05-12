@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ことばの網 — Visual Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0e16;
+  --bg-card: #12141e;
+  --teal-500: #1D9E75;
+  --teal-300: #5DCAA5;
+  --teal-100: #9FE1CB;
+  --coral-500: #D85A30;
+  --coral-300: #F0997B;
+  --amber-500: #EF9F27;
+  --purple-500: #534AB7;
+  --purple-300: #7F77DD;
+  --blue-500: #378ADD;
+  --pink-500: #D4537E;
+  --gray-900: #1a1a1a;
+  --gray-50: #f8f7f4;
+  --text-primary: rgba(255,255,255,0.9);
+  --text-secondary: rgba(255,255,255,0.5);
+  --text-tertiary: rgba(255,255,255,0.25);
+  --border: rgba(255,255,255,0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'DM Sans', 'Noto Sans JP', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(12,14,22,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid var(--border);
+  padding: 0 40px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--teal-300);
+  letter-spacing: -0.3px;
+}
+.nav-brand span { color: var(--text-tertiary); font-weight: 400; font-size: 12px; margin-left: 10px; }
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.25s;
+  border: 0.5px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+.nav-link.active {
+  color: var(--teal-300);
+  background: rgba(29,158,117,0.08);
+  border-color: rgba(29,158,117,0.15);
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 120px 40px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hero h1 {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--teal-100), var(--teal-300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 600px;
+}
+.hero-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+}
+.hero-meta-item {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.hero-meta-item strong {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ── SCREEN SECTIONS ── */
+.screen-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  scroll-margin-top: 70px;
+}
+.screen-section + .screen-section {
+  border-top: 0.5px solid var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.section-number {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--teal-500);
+  background: rgba(29,158,117,0.1);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 0.5px solid rgba(29,158,117,0.15);
+  letter-spacing: 0.5px;
+}
+.section-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.section-subtitle {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+/* ── PHONE + ANNOTATION LAYOUT ── */
+.screen-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.screen-layout.wide {
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-frame {
+  width: 375px;
+  min-width: 375px;
+  height: 740px;
+  background: #0a0c14;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.05);
+  flex-shrink: 0;
+}
+.phone-frame.tall { height: 780px; }
+
+.phones-pair {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.phones-pair .phone-frame {
+  width: 320px;
+  min-width: 320px;
+  height: 640px;
+}
+
+.annotations {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 8px;
+  min-width: 0;
+}
+.annotation-card {
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  border: 0.5px solid var(--border);
+}
+.annotation-card h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+.annotation-card p {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* Annotation strip for wide layout */
+.annotation-strip {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  width: 100%;
+}
+.annotation-strip .annotation-card { flex: 1; }
+
+/* ── STATUS BAR ── */
+.status-bar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-icons { display: flex; gap: 4px; align-items: center; }
+.status-icons svg { width: 16px; height: 16px; }
+
+/* ── SHARED INNER STYLES ── */
+.app-header {
+  padding: 0 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-title { font-family: 'Noto Sans JP', sans-serif; font-size: 20px; font-weight: 500; color: #fff; letter-spacing: -0.3px; }
+.app-subtitle { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+.header-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── SPHERE CANVAS ── */
+.sphere-canvas { padding: 8px 16px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; height: 540px; }
+.sphere-row { display: flex; gap: 14px; justify-content: center; }
+.sphere-item { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.sphere-item:hover { transform: scale(1.06); }
+.sphere-ring { position: absolute; border-radius: 50%; border: 0.5px solid; opacity: 0.5; animation: pulse-ring 4s ease-in-out infinite; }
+@keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:0.3;} 50%{transform:scale(1.04);opacity:0.6;} }
+.sphere-core { border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.sphere-core::before { content:''; position:absolute; top:15%; left:20%; width:30%; height:25%; background:rgba(255,255,255,0.15); border-radius:50%; filter:blur(6px); }
+.sphere-keywords { position:absolute; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; }
+.sphere-keyword { font-family:'Noto Sans JP',sans-serif; font-size:8px; font-weight:500; letter-spacing:0.3px; opacity:0.85; text-shadow:0 1px 3px rgba(0,0,0,0.4); }
+.sphere-label { margin-top:8px; font-family:'Noto Sans JP',sans-serif; font-size:10px; color:var(--text-tertiary); text-align:center; max-width:90px; line-height:1.3; }
+.sphere-count { font-size:8px; color:var(--text-tertiary); margin-top:2px; }
+.sphere-new-badge { position:absolute; top:-4px; right:-4px; width:16px; height:16px; background:var(--amber-500); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:500; color:#412402; border:1.5px solid #0a0c14; }
+
+/* FAB */
+.fab { position:absolute; bottom:84px; right:20px; width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--teal-300),var(--teal-500)); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(29,158,117,0.4); }
+.fab svg { width:24px; height:24px; }
+
+/* Bottom bar */
+.bottom-bar { position:absolute; bottom:0; left:0; right:0; height:72px; background:rgba(10,12,20,0.95); border-top:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-around; padding:0 32px 8px; }
+.bottom-tab { display:flex; flex-direction:column; align-items:center; gap:4px; opacity:0.4; }
+.bottom-tab.active { opacity:1; }
+.bottom-tab svg { width:22px; height:22px; }
+.bottom-tab span { font-size:9px; color:rgba(255,255,255,0.7); }
+
+/* ── SCREEN 2: Network interior ── */
+.nav-bar { height:44px; display:flex; align-items:center; padding:0 16px; gap:12px; }
+.back-btn { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; }
+.nav-title-text { font-family:'Noto Sans JP',sans-serif; font-size:16px; font-weight:500; flex:1; }
+.nav-count { font-size:11px; color:var(--text-tertiary); }
+
+.sphere-3d-area { position:relative; height:480px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.sphere-wireframe { position:absolute; border-radius:50%; border:0.5px solid; top:50%; left:50%; transform:translate(-50%,-50%); }
+.gesture-hint { position:absolute; top:52px; left:50%; transform:translateX(-50%); font-size:10px; color:var(--text-tertiary); display:flex; align-items:center; gap:6px; }
+
+.node-container { position:absolute; width:340px; height:340px; }
+.word-node { position:absolute; padding:6px 12px; border-radius:20px; font-family:'Noto Sans JP',sans-serif; font-size:13px; font-weight:500; cursor:pointer; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); white-space:nowrap; border:0.5px solid; }
+.word-node:hover { transform:scale(1.12); z-index:10; }
+.word-node.mid { opacity:0.55; transform:scale(0.88); }
+.word-node.far { opacity:0.25; transform:scale(0.75); }
+
+/* Detail popup */
+.detail-popup { position:absolute; bottom:0; left:0; right:0; background:rgba(16,18,28,0.96); border-radius:20px 20px 0 0; padding:20px 24px 24px; backdrop-filter:blur(20px); z-index:20; }
+.detail-popup .border-top { border-top: 0.5px solid; }
+.popup-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.popup-word { font-family:'Noto Sans JP',sans-serif; font-size:22px; font-weight:500; color:#fff; }
+.popup-reading { font-family:'Noto Sans JP',sans-serif; font-size:13px; color:var(--text-secondary); margin-left:8px; }
+.popup-pos { font-size:10px; padding:3px 10px; border-radius:12px; }
+.popup-source { font-size:10px; color:var(--text-tertiary); margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+.popup-example { padding:10px 14px; background:rgba(255,255,255,0.03); border-radius:10px; border:0.5px solid var(--border); margin-bottom:8px; }
+.popup-example-jp { font-family:'Noto Sans JP',sans-serif; font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+.popup-example-meaning { font-size:11px; color:var(--text-tertiary); margin-top:4px; }
+.popup-example-furigana { margin-top:6px; padding-top:6px; border-top:0.5px solid rgba(255,255,255,0.04); font-family:'Noto Sans JP',sans-serif; font-size:11px; color:var(--text-tertiary); line-height:1.6; }
+.furi-kanji { color:rgba(255,255,255,0.4); }
+.furi-reading { color:rgba(93,202,165,0.5); font-size:10px; }
+.furi-hl { color:rgba(240,153,123,0.6); }
+
+.popup-wormhole { display:flex; align-items:center; gap:6px; padding:7px 11px; border-radius:9px; cursor:pointer; transition:background 0.2s; border:0.5px solid; margin-top:6px; }
+.wh-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+@keyframes wormhole-glow { 0%,100%{box-shadow:0 0 4px rgba(127,119,221,0.3);transform:scale(1);} 50%{box-shadow:0 0 12px rgba(127,119,221,0.7);transform:scale(1.15);} }
+
+/* ── SCREEN 3: Capture ── */
+.capture-overlay { position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(6,8,16,0.92); backdrop-filter:blur(20px); display:flex; flex-direction:column; }
+.capture-header { padding:60px 24px 0; display:flex; align-items:center; justify-content:space-between; }
+.capture-close { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; }
+.capture-title { font-size:14px; color:var(--text-secondary); }
+.capture-save { font-size:14px; color:var(--teal-300); font-weight:500; padding:6px 16px; border-radius:20px; background:rgba(93,202,165,0.1); border:0.5px solid rgba(93,202,165,0.2); }
+.capture-input-area { flex:1; padding:32px 24px; }
+.capture-main-input { font-family:'Noto Sans JP',sans-serif; font-size:28px; font-weight:500; color:#fff; border:none; background:transparent; outline:none; width:100%; }
+.capture-auto-detect { margin-top:16px; padding:10px 14px; background:rgba(93,202,165,0.06); border:0.5px solid rgba(93,202,165,0.12); border-radius:12px; display:flex; align-items:center; gap:10px; }
+.detect-icon { width:20px; height:20px; border-radius:50%; background:rgba(93,202,165,0.15); display:flex; align-items:center; justify-content:center; }
+.detect-text { font-size:12px; color:rgba(93,202,165,0.7); flex:1; }
+.detect-reading { font-size:12px; color:var(--text-tertiary); }
+.capture-note { margin-top:20px; font-family:'Noto Sans JP',sans-serif; font-size:14px; color:rgba(255,255,255,0.6); }
+.source-tags { margin-top:24px; display:flex; flex-wrap:wrap; gap:8px; }
+.source-tag { padding:6px 14px; border-radius:20px; font-family:'Noto Sans JP',sans-serif; font-size:12px; color:var(--text-secondary); background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); }
+.source-tag.active { background:rgba(93,202,165,0.12); border-color:rgba(93,202,165,0.25); color:var(--teal-100); }
+.capture-methods { padding:0 24px 32px; display:flex; justify-content:center; gap:20px; }
+.capture-method { display:flex; flex-direction:column; align-items:center; gap:6px; opacity:0.4; }
+.capture-method.active { opacity:1; }
+.method-icon { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:0.5px solid; }
+.method-label { font-size:10px; color:var(--text-secondary); }
+.clipboard-toast { position:absolute; top:100px; left:50%; transform:translateX(-50%); background:rgba(29,158,117,0.15); border:0.5px solid rgba(93,202,165,0.25); border-radius:12px; padding:10px 18px; display:flex; align-items:center; gap:8px; backdrop-filter:blur(10px); }
+.toast-text { font-size:12px; color:var(--teal-100); }
+.toast-action { font-size:12px; color:var(--teal-300); font-weight:500; margin-left:4px; }
+
+/* ── SCREEN 4: Notifications ── */
+.lock-time { text-align:center; padding-top:80px; font-size:56px; font-weight:300; color:rgba(255,255,255,0.85); letter-spacing:-2px; }
+.lock-date { text-align:center; font-family:'Noto Sans JP',sans-serif; font-size:13px; color:var(--text-secondary); margin-top:4px; }
+.lock-notif { margin:40px 16px 0; background:rgba(255,255,255,0.08); border-radius:16px; padding:14px 16px; backdrop-filter:blur(20px); border:0.5px solid var(--border); }
+.lock-notif + .lock-notif { margin-top:10px; }
+.notif-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.notif-app-icon { width:20px; height:20px; border-radius:5px; background:linear-gradient(135deg,var(--teal-500),var(--teal-300)); display:flex; align-items:center; justify-content:center; }
+.notif-app-name { font-size:11px; color:var(--text-secondary); flex:1; }
+.notif-time { font-size:11px; color:var(--text-tertiary); }
+.notif-title { font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:500; color:rgba(255,255,255,0.9); margin-bottom:4px; }
+.notif-body { font-family:'Noto Sans JP',sans-serif; font-size:12px; color:var(--text-secondary); line-height:1.5; }
+.notif-spheres { display:flex; gap:6px; margin-top:10px; align-items:center; }
+.notif-mini-sphere { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Noto Sans JP',sans-serif; font-size:7px; font-weight:500; }
+
+/* In-app banner */
+.inapp-banner { margin:8px 12px; border-radius:16px; overflow:hidden; border:0.5px solid rgba(239,159,39,0.2); }
+.banner-glow { background:linear-gradient(135deg,rgba(239,159,39,0.08),rgba(186,117,23,0.04)); padding:14px 16px; }
+.banner-badge { font-size:9px; font-weight:500; color:var(--amber-500); background:rgba(239,159,39,0.12); padding:2px 8px; border-radius:8px; border:0.5px solid rgba(239,159,39,0.2); text-transform:uppercase; letter-spacing:0.5px; }
+.banner-title { font-family:'Noto Sans JP',sans-serif; font-size:15px; font-weight:500; color:#fff; margin:10px 0 4px; }
+.banner-desc { font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:12px; }
+.banner-preview { display:flex; align-items:center; gap:8px; padding:10px 12px; background:rgba(0,0,0,0.2); border-radius:10px; }
+.banner-sphere-icon { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.banner-words { display:flex; flex-wrap:wrap; gap:4px; }
+.banner-word { padding:3px 8px; border-radius:10px; font-family:'Noto Sans JP',sans-serif; font-size:11px; font-weight:500; }
+.banner-hint { font-size:10px; color:var(--text-tertiary); text-align:center; margin-top:8px; }
+.sphere-grid-bg { padding:12px 16px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center; opacity:0.3; }
+.bg-sphere { width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Noto Sans JP',sans-serif; font-size:8px; font-weight:500; }
+
+/* ── SCREEN 5: Settings ── */
+.settings-scroll { padding:8px 20px 40px; overflow-y:auto; height:calc(100% - 88px); }
+.settings-section { margin-bottom:28px; }
+.section-hdr { font-size:11px; font-weight:500; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px; padding-left:2px; }
+.setting-card { background:rgba(255,255,255,0.03); border:0.5px solid var(--border); border-radius:14px; padding:16px; margin-bottom:10px; }
+.setting-row { display:flex; align-items:center; justify-content:space-between; }
+.setting-label { font-size:14px; color:rgba(255,255,255,0.85); }
+.setting-desc { font-size:11px; color:var(--text-tertiary); margin-top:4px; line-height:1.5; }
+.toggle-track { width:44px; height:26px; border-radius:13px; position:relative; flex-shrink:0; }
+.toggle-track.on { background:var(--teal-500); }
+.toggle-track.off { background:rgba(255,255,255,0.1); }
+.toggle-thumb { width:22px; height:22px; border-radius:50%; background:#fff; position:absolute; top:2px; box-shadow:0 1px 4px rgba(0,0,0,0.3); }
+.toggle-track.on .toggle-thumb { left:20px; }
+.toggle-track.off .toggle-thumb { left:2px; }
+
+.freq-slider-track { flex:1; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; position:relative; }
+.freq-slider-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--teal-500),var(--teal-300)); width:50%; }
+.freq-slider-thumb { width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:-8px; left:calc(50% - 10px); box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+.freq-labels { display:flex; justify-content:space-between; margin-top:8px; }
+.freq-label { font-size:10px; color:var(--text-tertiary); }
+.freq-label.active { color:var(--teal-300); font-weight:500; }
+.freq-value { text-align:center; padding:12px; background:rgba(93,202,165,0.06); border:0.5px solid rgba(93,202,165,0.12); border-radius:10px; margin-top:14px; }
+.freq-number { font-size:28px; font-weight:500; color:var(--teal-300); }
+.freq-unit { font-size:12px; color:rgba(93,202,165,0.6); margin-top:2px; }
+.freq-explain { font-size:11px; color:var(--text-tertiary); margin-top:8px; line-height:1.5; }
+
+.threshold-viz { margin-top:16px; padding:14px; background:rgba(255,255,255,0.02); border-radius:10px; border:0.5px solid rgba(255,255,255,0.04); }
+.threshold-title { font-size:11px; color:var(--text-secondary); margin-bottom:10px; font-weight:500; }
+.threshold-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.threshold-dots { display:flex; gap:3px; }
+.t-dot { width:8px; height:8px; border-radius:50%; }
+.t-dot.filled { background:var(--teal-300); }
+.t-dot.empty { background:rgba(255,255,255,0.06); border:0.5px solid rgba(255,255,255,0.1); }
+.t-dot.pending { background:rgba(239,159,39,0.4); border:0.5px solid rgba(239,159,39,0.5); }
+.threshold-status { font-family:'Noto Sans JP',sans-serif; font-size:10px; color:var(--text-tertiary); flex:1; }
+.threshold-result { font-size:10px; font-weight:500; }
+
+.dormant-setting { display:flex; align-items:flex-start; gap:12px; padding:12px; background:rgba(127,119,221,0.04); border:0.5px solid rgba(127,119,221,0.1); border-radius:10px; margin-top:10px; }
+.dormant-icon { width:28px; height:28px; border-radius:8px; background:rgba(127,119,221,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.dormant-title { font-size:12px; color:rgba(255,255,255,0.7); font-weight:500; }
+.dormant-desc { font-size:10px; color:var(--text-tertiary); margin-top:3px; line-height:1.5; }
+.dormant-number { width:44px; height:28px; border-radius:8px; background:rgba(255,255,255,0.04); border:0.5px solid rgba(127,119,221,0.2); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; color:#CECBF6; }
+
+/* ── SCREEN 6: Hinata network ── */
+/* Uses same structure as screen 2 with coral colors */
+
+/* ── Footer ── */
+.page-footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 0.5px solid var(--border);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.page-footer strong { color: var(--text-secondary); font-weight: 500; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .screen-layout { flex-direction: column; align-items: center; }
+  .annotations { padding-top: 24px; }
+  .phones-pair { flex-direction: column; align-items: center; }
+  .hero h1 { font-size: 32px; }
+  .top-nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .screen-section { padding: 40px 16px; }
+  .annotation-strip { flex-direction: column; }
+}
+
+/* ── INTERACTIVE CAPTURE OVERLAY (floating, triggered from FAB) ── */
+.capture-modal-backdrop {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(6,8,16,0.7);
+  backdrop-filter: blur(12px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.capture-modal-backdrop.open { opacity:1; pointer-events:auto; }
+
+.capture-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  width: 400px; max-width: 92vw;
+  max-height: 85vh;
+  background: #10121c;
+  border-radius: 24px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  z-index: 201;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.capture-modal-backdrop.open + .capture-modal,
+.capture-modal.open { opacity:1; pointer-events:auto; transform: translate(-50%, -50%) scale(1); }
+
+.cm-header {
+  padding: 20px 24px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cm-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s;
+}
+.cm-close:hover { background: rgba(255,255,255,0.12); }
+.cm-title { font-size: 14px; color: rgba(255,255,255,0.4); }
+.cm-save {
+  font-size: 14px; color: var(--teal-300); font-weight: 500;
+  padding: 7px 18px; border-radius: 20px;
+  background: rgba(93,202,165,0.1); border: 0.5px solid rgba(93,202,165,0.2);
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.cm-save:hover { background: rgba(93,202,165,0.2); }
+.cm-save.disabled { opacity: 0.3; pointer-events: none; }
+
+.cm-body { padding: 24px 24px 8px; flex:1; overflow-y: auto; }
+.cm-input {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 26px; font-weight: 500; color: #fff;
+  border: none; background: transparent; outline: none;
+  width: 100%; caret-color: var(--teal-300);
+}
+.cm-input::placeholder { color: rgba(255,255,255,0.12); }
+
+.cm-ai {
+  margin-top: 14px; padding: 10px 14px;
+  background: rgba(93,202,165,0.06); border: 0.5px solid rgba(93,202,165,0.12);
+  border-radius: 12px; display: flex; align-items: center; gap: 10px;
+  opacity: 0; transition: opacity 0.3s; min-height: 40px;
+}
+.cm-ai.visible { opacity: 1; }
+.cm-ai-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(93,202,165,0.15);
+  display: flex; align-items: center; justify-content: center; flex-shrink:0;
+}
+.cm-ai-text { font-size: 12px; color: rgba(93,202,165,0.7); flex:1; }
+.cm-ai-reading { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+.cm-note {
+  margin-top: 16px; font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px; color: rgba(255,255,255,0.6);
+  border: none; background: transparent; outline: none;
+  width: 100%; caret-color: var(--teal-300);
+}
+.cm-note::placeholder { color: rgba(255,255,255,0.1); }
+
+.cm-tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+.cm-tag {
+  padding: 7px 14px; border-radius: 20px; font-size: 12px;
+  color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.cm-tag:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
+.cm-tag.active { background: rgba(93,202,165,0.12); border-color: rgba(93,202,165,0.25); color: #9FE1CB; }
+
+.cm-methods {
+  padding: 16px 24px 24px;
+  display: flex; justify-content: center; gap: 18px;
+  border-top: 0.5px solid rgba(255,255,255,0.04);
+}
+.cm-method {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  cursor: pointer; opacity: 0.35; transition: opacity 0.2s;
+}
+.cm-method:hover { opacity: 0.6; }
+.cm-method.active { opacity: 1; }
+.cm-method-icon {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 0.5px solid;
+}
+.cm-method-label { font-size: 10px; color: rgba(255,255,255,0.5); }
+
+.cm-toast {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(0.85);
+  background: rgba(29,158,117,0.2); border: 0.5px solid rgba(93,202,165,0.3);
+  border-radius: 16px; padding: 16px 28px;
+  font-size: 15px; color: #9FE1CB; font-weight: 500;
+  z-index: 210; opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events: none; backdrop-filter: blur(12px);
+}
+.cm-toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+
+/* Make Screen 1 FAB clickable */
+.fab-interactive { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.fab-interactive:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(29,158,117,0.5); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <div class="nav-brand">ことばの網 <span>可视化交互原型 v0.2</span></div>
+  <div class="nav-links">
+    <a href="#s1" class="nav-link active">全局视图</a>
+    <a href="#s2" class="nav-link">网络内部</a>
+    <a href="#s3" class="nav-link">碎片采集</a>
+    <a href="#s4" class="nav-link">通知</a>
+    <a href="#s5" class="nav-link">设置</a>
+    <a href="#s6" class="nav-link">日向坂</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>ことばの網</h1>
+  <p>网格化日语学习工具——六屏交互原型。每一屏配有设计规格标注、交互行为说明和视觉编码规则。</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>版本</strong> 0.2</div>
+    <div class="hero-meta-item"><strong>日期</strong> 2026年5月</div>
+    <div class="hero-meta-item"><strong>设计师</strong> Kuma</div>
+    <div class="hero-meta-item"><strong>屏数</strong> 6</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 1: GLOBAL VIEW -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s1">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <span class="section-title">全局视图</span>
+    <span class="section-subtitle">折叠的霍伯曼球体 · 点击进入探索</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame">
+      <div class="status-bar"><span>21:02</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+      <div class="app-header"><div><div class="app-title">ことばの網</div><div class="app-subtitle">12 networks · 847 fragments</div></div><div style="display:flex;gap:8px;"><div class="header-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><circle cx="11" cy="11" r="7"/><path d="M16 16l4 4"/></svg></div><div class="header-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><path d="M12 3v1m0 16v1m-8-9H3m18 0h-1"/></svg></div></div></div>
+      <div class="sphere-canvas">
+        <div class="sphere-row">
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-ring" style="width:120px;height:120px;border-color:rgba(93,202,165,0.4);"></div><div class="sphere-core" style="width:94px;height:94px;background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56 60%,#085041);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#9FE1CB;">駅</span><span class="sphere-keyword" style="color:#9FE1CB;opacity:0.6;">乗り換え</span><span class="sphere-keyword" style="color:#9FE1CB;opacity:0.45;">改札</span></div></div></div><div class="sphere-label">移動・交通</div><div class="sphere-count">38 fragments</div></div>
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-ring" style="width:130px;height:130px;border-color:rgba(239,159,39,0.35);"></div><div class="sphere-core" style="width:102px;height:102px;background:radial-gradient(circle at 35% 30%,#EF9F27,#BA7517 60%,#633806);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#FAEEDA;">注文</span><span class="sphere-keyword" style="color:#FAEEDA;opacity:0.65;">美味しい</span><span class="sphere-keyword" style="color:#FAEEDA;opacity:0.45;">焼く</span></div></div><div class="sphere-new-badge">2</div></div><div class="sphere-label">食・料理</div><div class="sphere-count">52 fragments</div></div>
+        </div>
+        <div class="sphere-row">
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:76px;height:76px;background:radial-gradient(circle at 35% 30%,#D4537E,#993556 60%,#4B1528);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#F4C0D1;">嬉しい</span><span class="sphere-keyword" style="color:#F4C0D1;opacity:0.55;">悔しい</span></div></div></div><div class="sphere-label">感情表現</div><div class="sphere-count">27 fragments</div></div>
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:84px;height:84px;background:radial-gradient(circle at 35% 30%,#7F77DD,#534AB7 60%,#26215C);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#CECBF6;">いただく</span><span class="sphere-keyword" style="color:#CECBF6;opacity:0.6;">ございます</span></div></div></div><div class="sphere-label">敬語</div><div class="sphere-count">34 fragments</div></div>
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:70px;height:70px;background:radial-gradient(circle at 35% 30%,#378ADD,#185FA5 60%,#042C53);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#B5D4F4;">届く</span><span class="sphere-keyword" style="color:#B5D4F4;opacity:0.55;">届ける</span></div></div><div class="sphere-new-badge">!</div></div><div class="sphere-label">届 family</div><div class="sphere-count">8 · new</div></div>
+        </div>
+        <div class="sphere-row">
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:88px;height:88px;background:radial-gradient(circle at 35% 30%,#F0997B,#D85A30 60%,#712B13);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#FAECE7;">推し</span><span class="sphere-keyword" style="color:#FAECE7;opacity:0.6;">メンバー</span><span class="sphere-keyword" style="color:#FAECE7;opacity:0.4;">番組</span></div></div></div><div class="sphere-label">日向坂語彙</div><div class="sphere-count">63 fragments</div></div>
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:78px;height:78px;background:radial-gradient(circle at 35% 30%,#97C459,#639922 60%,#173404);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#EAF3DE;">攻撃</span><span class="sphere-keyword" style="color:#EAF3DE;opacity:0.55;">装備</span></div></div></div><div class="sphere-label">ゲーム用語</div><div class="sphere-count">41 fragments</div></div>
+          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:52px;height:52px;background:radial-gradient(circle at 35% 30%,#888780,#5F5E5A 60%,#2C2C2A);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#D3D1C7;font-size:7px;">天気</span></div></div></div><div class="sphere-label">天気</div><div class="sphere-count">5 fragments</div></div>
+        </div>
+        <div class="sphere-row" style="margin-top:4px;">
+          <div class="sphere-item" style="opacity:0.5;"><div style="position:relative;"><div class="sphere-core" style="width:40px;height:40px;background:radial-gradient(circle at 35% 30%,#5F5E5A,#444441 60%,#2C2C2A);border:0.5px dashed rgba(255,255,255,0.15);"></div></div><div class="sphere-label" style="opacity:0.5;">forming...</div><div class="sphere-count">2/3 links</div></div>
+          <div class="sphere-item" style="opacity:0.4;"><div style="position:relative;"><div class="sphere-core" style="width:36px;height:36px;background:radial-gradient(circle at 35% 30%,#5F5E5A,#444441 60%,#2C2C2A);border:0.5px dashed rgba(255,255,255,0.12);"></div></div><div class="sphere-label" style="opacity:0.4;">forming...</div><div class="sphere-count">1/3 links</div></div>
+        </div>
+      </div>
+      <div class="fab fab-interactive" id="fab-s1" title="Quick capture"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="24" height="24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <div class="bottom-bar">
+        <div class="bottom-tab active"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="1.5" width="22" height="22"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg><span style="color:#5DCAA5;">networks</span></div>
+        <div class="bottom-tab"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="22" height="22"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg><span>fragments</span></div>
+        <div class="bottom-tab"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="22" height="22"><path d="M12 20V4M4 12l8-8 8 8"/></svg><span>progress</span></div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>球体尺寸</h4><p>直径随碎片数量缩放。最大球体（食・料理，52个碎片）= 102px。最小已成型球体（天気，5个）= 52px。</p></div>
+      <div class="annotation-card"><h4>表面关键词</h4><p>球体表面可见2-3个关键词。次要词汇透明度递减。用户无需点击即可识别网络主题。</p></div>
+      <div class="annotation-card"><h4>新网络徽标</h4><p>琥珀色"!"表示新形成的网络。数字徽标显示上次访问后的新连接数。</p></div>
+      <div class="annotation-card"><h4>形成中状态</h4><p>虚线边框 + 降低透明度。进度指示器显示接近阈值的进度（如 2/3）。尚不可点击。</p></div>
+      <div class="annotation-card"><h4>颜色编码</h4><p>每个网络拥有唯一的色谱。颜色在所有视图中持续一致，提供空间记忆线索。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Remaining screens reference the same patterns. For file size, I'll include the key unique screens. -->
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 2: NETWORK INTERIOR (summary) -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s2">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <span class="section-title">展开网络 + 详情弹窗</span>
+    <span class="section-subtitle">移動・交通 · 38个碎片</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame">
+      <div class="status-bar"><span>21:03</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+      <div class="nav-bar"><div class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><path d="M15 19l-7-7 7-7"/></svg></div><div class="nav-title-text" style="color:#9FE1CB;">移動・交通</div><div class="nav-count">38 fragments</div></div>
+      <div class="sphere-3d-area">
+        <div class="gesture-hint"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg> drag to rotate</div>
+        <div class="sphere-wireframe" style="width:340px;height:340px;border-color:rgba(93,202,165,0.08);"></div>
+        <svg style="position:absolute;width:340px;height:340px;top:50%;left:50%;transform:translate(-50%,-50%);" viewBox="0 0 340 340"><line x1="170" y1="85" x2="108" y2="148" stroke="rgba(93,202,165,0.35)" stroke-width="1"/><line x1="170" y1="85" x2="245" y2="130" stroke="rgba(93,202,165,0.25)" stroke-width="0.8"/><line x1="108" y1="148" x2="75" y2="220" stroke="rgba(93,202,165,0.2)" stroke-width="0.6"/><line x1="108" y1="148" x2="190" y2="195" stroke="rgba(93,202,165,0.08)" stroke-width="0.5"/></svg>
+        <div class="node-container" style="top:50%;left:50%;transform:translate(-50%,-50%);">
+          <div class="word-node" style="top:62px;left:120px;background:rgba(29,158,117,0.2);border-color:rgba(93,202,165,0.4);color:#9FE1CB;">駅</div>
+          <div class="word-node" style="top:125px;left:58px;background:rgba(29,158,117,0.15);border-color:rgba(93,202,165,0.3);color:#9FE1CB;">乗り換え</div>
+          <div class="word-node" style="top:107px;left:200px;background:rgba(29,158,117,0.15);border-color:rgba(93,202,165,0.3);color:#9FE1CB;">改札</div>
+          <div class="word-node" style="top:170px;left:135px;background:rgba(29,158,117,0.12);border-color:rgba(93,202,165,0.25);color:#9FE1CB;">切符</div>
+          <div class="word-node mid" style="top:195px;left:25px;background:rgba(29,158,117,0.08);border-color:rgba(93,202,165,0.12);color:#5DCAA5;">ホーム</div>
+          <div class="word-node mid" style="top:185px;left:230px;background:rgba(29,158,117,0.08);border-color:rgba(93,202,165,0.12);color:#5DCAA5;">終電</div>
+          <div class="word-node mid" style="top:60px;left:20px;background:rgba(29,158,117,0.06);border-color:rgba(93,202,165,0.1);color:#5DCAA5;">出口</div>
+          <div class="word-node far" style="top:250px;left:80px;background:rgba(29,158,117,0.04);border-color:rgba(93,202,165,0.06);color:#1D9E75;">運賃</div>
+          <div class="word-node far" style="top:250px;left:210px;background:rgba(29,158,117,0.04);border-color:rgba(93,202,165,0.06);color:#1D9E75;">遅延</div>
+          <div class="word-node far" style="top:30px;left:210px;background:rgba(29,158,117,0.04);border-color:rgba(93,202,165,0.06);color:#1D9E75;">発車</div>
+          <div style="position:absolute;top:102px;left:255px;width:10px;height:10px;border-radius:50%;background:#7F77DD;box-shadow:0 0 10px rgba(127,119,221,0.6);animation:wormhole-glow 2s ease-in-out infinite;"></div>
+        </div>
+      </div>
+      <div class="detail-popup" style="border-top:0.5px solid rgba(93,202,165,0.2);">
+        <div class="popup-header"><div style="display:flex;align-items:baseline;"><span class="popup-word">駅</span><span class="popup-reading">えき</span></div><span class="popup-pos" style="color:#1D9E75;background:rgba(29,158,117,0.12);border:0.5px solid rgba(29,158,117,0.2);">名詞</span></div>
+        <div class="popup-source"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/></svg> 2026.04.12 · 有楽町駅の看板</div>
+        <div class="popup-example"><div class="popup-example-jp">次の<span style="color:#5DCAA5;font-weight:500;">駅</span>はどこですか？</div><div class="popup-example-meaning">The next station is where?</div></div>
+        <div class="popup-example"><div class="popup-example-jp"><span style="color:#5DCAA5;font-weight:500;">駅</span>の近くにコンビニがあります。</div><div class="popup-example-meaning">There's a convenience store near the station.</div></div>
+        <div class="popup-wormhole" style="background:rgba(127,119,221,0.06);border-color:rgba(127,119,221,0.12);"><div class="wh-dot" style="background:#7F77DD;box-shadow:0 0 6px rgba(127,119,221,0.5);"></div><span style="font-size:11px;color:#CECBF6;">Also in: 敬語 network → 駅員に聞く</span></div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>深度编码</h4><p>三层：近景（100%透明度）、中景（55%，88%缩放）、远景（25%，75%缩放）。在2D屏幕上模拟3D球面。</p></div>
+      <div class="annotation-card"><h4>动态连接线</h4><p>仅最近的3-4个节点显示连接线。拖拽旋转时，线条以300ms缓动渐入渐出，与手指速度同步。</p></div>
+      <div class="annotation-card"><h4>详情弹窗</h4><p>底部弹出面板：汉字 + 读音 + 词性标签，采集来源记忆，AI生成的例句（目标词高亮），以及虫洞链接。</p></div>
+      <div class="annotation-card"><h4>虫洞指示器</h4><p>紫色发光圆点标记存在于其他网络中的节点。点击弹窗中的链接触发跨网络穿越动画。</p></div>
+      <div class="annotation-card"><h4>退出手势</h4><p>双指外扩 = 镜头拉远，球体收缩，周围球体渐入。连续缩放，无页面转场。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 3: FRAGMENT CAPTURE -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s3">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <span class="section-title">碎片采集</span>
+    <span class="section-subtitle">点击FAB打开覆盖层 · 最多3步保存</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame" id="capture-phone">
+      <!-- Interactive capture inside phone frame -->
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(6,8,16,0.95);display:flex;flex-direction:column;">
+        <!-- Top bar -->
+        <div style="padding:52px 20px 0;display:flex;align-items:center;justify-content:space-between;">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;" id="s3-close"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="16" height="16"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+          <span style="font-size:14px;color:rgba(255,255,255,0.4);">new fragment</span>
+          <div style="font-size:14px;color:#5DCAA5;font-weight:500;padding:6px 16px;border-radius:20px;background:rgba(93,202,165,0.1);border:0.5px solid rgba(93,202,165,0.2);cursor:pointer;transition:all 0.2s;user-select:none;" id="s3-save" class="cm-save disabled">save</div>
+        </div>
+        <!-- Input area -->
+        <div style="flex:1;padding:24px 20px;display:flex;flex-direction:column;">
+          <input type="text" id="s3-input" placeholder="日本語を入力..." style="font-family:'Noto Sans JP',sans-serif;font-size:24px;font-weight:500;color:#fff;border:none;background:transparent;outline:none;width:100%;caret-color:#5DCAA5;">
+          <!-- AI detect -->
+          <div id="s3-ai" style="margin-top:14px;padding:9px 12px;background:rgba(93,202,165,0.06);border:0.5px solid rgba(93,202,165,0.12);border-radius:12px;display:flex;align-items:center;gap:9px;opacity:0;transition:opacity 0.3s;min-height:38px;">
+            <div style="width:20px;height:20px;border-radius:50%;background:rgba(93,202,165,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2" width="11" height="11"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <span id="s3-ai-text" style="font-size:11px;color:rgba(93,202,165,0.7);flex:1;">—</span>
+            <span id="s3-ai-reading" style="font-size:11px;color:rgba(255,255,255,0.3);"></span>
+          </div>
+          <!-- Note -->
+          <input type="text" id="s3-note" placeholder="メモを追加（任意）..." style="margin-top:14px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);border:none;background:transparent;outline:none;width:100%;caret-color:#5DCAA5;">
+          <!-- Source tags -->
+          <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:7px;" id="s3-tags">
+            <div class="cm-tag" data-tag="駅の看板">🚉 駅の看板</div>
+            <div class="cm-tag" data-tag="番組">📺 番組</div>
+            <div class="cm-tag" data-tag="会話">💬 会話</div>
+            <div class="cm-tag" data-tag="SNS">📱 SNS</div>
+            <div class="cm-tag" data-tag="授業">📖 授業</div>
+            <div class="cm-tag" data-tag="ゲーム">🎮 ゲーム</div>
+          </div>
+        </div>
+        <!-- Input methods -->
+        <div style="padding:0 20px 28px;display:flex;justify-content:center;gap:16px;">
+          <div class="cm-method active"><div class="cm-method-icon" style="background:rgba(93,202,165,0.12);border-color:rgba(93,202,165,0.25);"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="1.5" width="20" height="20"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></div><span class="cm-method-label" style="color:#9FE1CB;">text</span></div>
+          <div class="cm-method"><div class="cm-method-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div><span class="cm-method-label">photo</span></div>
+          <div class="cm-method"><div class="cm-method-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="20" height="20"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg></div><span class="cm-method-label">voice</span></div>
+          <div class="cm-method"><div class="cm-method-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="20" height="20"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/></svg></div><span class="cm-method-label">paste</span></div>
+        </div>
+        <!-- Save success overlay (hidden by default) -->
+        <div id="s3-success" style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(6,8,16,0.9);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s;">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(93,202,165,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2.5" width="28" height="28"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div id="s3-success-word" style="font-family:'Noto Sans JP',sans-serif;font-size:20px;font-weight:500;color:#fff;margin-bottom:6px;">—</div>
+          <div style="font-size:12px;color:rgba(93,202,165,0.6);">fragment saved to ことばの網</div>
+        </div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>试试看</h4><p>在输入框中输入任意日语词汇，AI会实时检测词性和读音。选择来源标签，然后点击save查看确认动画。</p></div>
+      <div class="annotation-card"><h4>剪贴板自动检测</h4><p>实际应用中，打开覆盖层时会自动检查剪贴板中的日文并显示提示，一键填入。将采集缩减为2步：FAB → 粘贴 → 保存。</p></div>
+      <div class="annotation-card"><h4>AI自动分析</h4><p>输入即触发：词性检测、注音生成、可能的含义。无需用户操作。原型内置20余词的模拟词典；未知词汇根据词尾进行启发式分析。</p></div>
+      <div class="annotation-card"><h4>来源标签</h4><p>带emoji前缀的单击预设。每次只能选一个（再次点击取消）。映射到网络聚类中的个人记忆维度。</p></div>
+      <div class="annotation-card"><h4>关键路径</h4><p>FAB → 输入词汇 → 保存。共3步。备注、标签和来源都是可选增强，绝不阻断保存操作。</p></div>
+      <div class="annotation-card"><h4>四种输入模式</h4><p>文本（键盘）、拍照（OCR）、语音（语音转文字）、粘贴（剪贴板）。激活模式以teal色高亮。模式在连续采集时保持不变。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 4: NOTIFICATIONS -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s4">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <span class="section-title">通知状态</span>
+    <span class="section-subtitle">锁屏推送 + 应用内横幅</span>
+  </div>
+  <div class="screen-layout wide">
+    <div class="phones-pair">
+      <!-- 4A: Lock screen -->
+      <div class="phone-frame" style="width:320px;min-width:320px;height:640px;">
+        <div class="status-bar"><span>21:47</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+        <div class="lock-time">21:47</div>
+        <div class="lock-date">5月11日 月曜日</div>
+        <div class="lock-notif">
+          <div class="notif-header"><div class="notif-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="4"/></svg></div><span class="notif-app-name">ことばの網</span><span class="notif-time">now</span></div>
+          <div class="notif-title">New network formed ✦</div>
+          <div class="notif-body">「届く」「届ける」「届け出」— connected through kanji 届</div>
+          <div class="notif-spheres"><div class="notif-mini-sphere" style="background:radial-gradient(circle at 35% 30%,#378ADD,#185FA5);"><span style="color:#B5D4F4;">届</span></div><span style="font-size:10px;color:var(--text-tertiary);">←</span><div class="notif-mini-sphere" style="background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56);"><span style="color:#9FE1CB;">駅</span></div><span style="font-size:10px;color:var(--text-tertiary);margin-left:4px;">shared: 届け出</span></div>
+        </div>
+        <div class="lock-notif" style="border:0.5px solid rgba(127,119,221,0.12);">
+          <div class="notif-header"><div class="notif-app-icon" style="background:linear-gradient(135deg,#534AB7,#7F77DD);"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="4"/></svg></div><span class="notif-app-name">ことばの網</span><span class="notif-time">2h ago</span></div>
+          <div class="notif-title" style="font-size:13px;">Your 敬語 network grew while you were away</div>
+          <div class="notif-body">2 new connections. Threshold lowered — 9 days inactive.</div>
+        </div>
+      </div>
+      <!-- 4B: In-app banner -->
+      <div class="phone-frame" style="width:320px;min-width:320px;height:640px;">
+        <div class="status-bar"><span>21:48</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+        <div style="padding:4px 20px 12px;"><div class="app-title" style="font-size:17px;">ことばの網</div><div style="font-size:10px;color:var(--text-tertiary);margin-top:1px;">12 networks · 847 fragments</div></div>
+        <div class="inapp-banner"><div class="banner-glow"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div class="banner-badge">new network</div></div><div class="banner-title">「届」kanji family formed</div><div class="banner-desc">3 fragments connected through shared kanji, conjugation, and your station signage.</div><div class="banner-preview"><div class="banner-sphere-icon" style="background:radial-gradient(circle at 35% 30%,#378ADD,#185FA5 60%,#042C53);"><span style="color:#B5D4F4;font-size:11px;font-weight:500;">届</span></div><div class="banner-words"><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届く</span><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届ける</span><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届け出</span></div></div><div class="banner-hint">tap to explore this network</div></div></div>
+        <div class="sphere-grid-bg">
+          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56 60%,#085041);"><span style="color:#9FE1CB;">駅</span></div>
+          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#EF9F27,#BA7517 60%,#633806);"><span style="color:#FAEEDA;">食</span></div>
+          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#D4537E,#993556 60%,#4B1528);"><span style="color:#F4C0D1;">感</span></div>
+          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#7F77DD,#534AB7 60%,#26215C);"><span style="color:#CECBF6;">敬</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation-strip">
+      <div class="annotation-card"><h4>推送通知</h4><p>标题宣告事件类型。正文预览关联词汇和关联维度。迷你球体行显示跨网络链接。点击直接进入新球体。</p></div>
+      <div class="annotation-card"><h4>休眠召回</h4><p>7天不活跃后，阈值降低1级。紫色调区别于常规触发。明确标注"阈值已降低"确保透明性。</p></div>
+      <div class="annotation-card"><h4>应用内横幅</h4><p>琥珀色发光显示在全局视图顶部。球体预览 + 词汇标签。背景球体暗化至30%。可关闭(X)或点击（飞入球体）。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 5: SETTINGS -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s5">
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <span class="section-title">设置</span>
+    <span class="section-subtitle">触发频率 · 休眠召回 · 通知</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame tall">
+      <div class="status-bar"><span>21:50</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+      <div class="nav-bar"><div class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><path d="M15 19l-7-7 7-7"/></svg></div><span style="font-size:17px;font-weight:500;color:#fff;">Settings</span></div>
+      <div class="settings-scroll">
+        <div class="settings-section">
+          <div class="section-hdr">Network discovery</div>
+          <div class="setting-card">
+            <div class="setting-row"><div><div class="setting-label">Trigger sensitivity</div><div class="setting-desc">How many connection paths before a network forms</div></div></div>
+            <div style="margin-top:16px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-top:12px;"><span style="font-size:11px;color:var(--text-tertiary);">2</span><div class="freq-slider-track"><div class="freq-slider-fill"></div><div class="freq-slider-thumb"></div></div><span style="font-size:11px;color:var(--text-tertiary);">5</span></div>
+              <div class="freq-labels"><span class="freq-label">more frequent</span><span class="freq-label active">balanced</span><span class="freq-label">fewer, richer</span></div>
+              <div class="freq-value"><div class="freq-number">3</div><div class="freq-unit">connection paths required</div><div class="freq-explain">A network forms when fragments share at least 3 independent links</div></div>
+              <div class="threshold-viz">
+                <div class="threshold-title">How it works</div>
+                <div class="threshold-row"><div class="threshold-dots"><div class="t-dot filled"></div><div class="t-dot filled"></div><div class="t-dot filled"></div></div><span class="threshold-status">届く ↔ 届ける ↔ 届け出</span><span class="threshold-result" style="color:var(--teal-300);">triggered</span></div>
+                <div class="threshold-row"><div class="threshold-dots"><div class="t-dot filled"></div><div class="t-dot filled"></div><div class="t-dot empty"></div></div><span class="threshold-status">暑い ↔ 熱い</span><span class="threshold-result" style="color:var(--text-tertiary);">2/3 — waiting</span></div>
+                <div class="threshold-row" style="margin-bottom:0;"><div class="threshold-dots"><div class="t-dot filled"></div><div class="t-dot pending"></div><div class="t-dot empty"></div></div><span class="threshold-status">新しい ↔ 新品</span><span class="threshold-result" style="color:rgba(239,159,39,0.5);">1/3 — forming</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="setting-card">
+            <div class="setting-row"><div><div class="setting-label">Dormant recall</div><div class="setting-desc">Auto-lower threshold after inactivity</div></div><div class="toggle-track on"><div class="toggle-thumb"></div></div></div>
+            <div class="dormant-setting"><div class="dormant-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7F77DD" stroke-width="1.5" width="16" height="16"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div style="flex:1;"><div class="dormant-title">Inactivity window</div><div class="dormant-desc">Threshold drops by 1 to re-engage you</div><div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><div class="dormant-number">7</div><span style="font-size:11px;color:var(--text-tertiary);">days without opening</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>触发灵敏度滑块</h4><p>范围2-5，默认3。标签描述行为（"更频繁" vs "更少但更丰富"），而不仅仅是数字。</p></div>
+      <div class="annotation-card"><h4>实时阈值可视化</h4><p>使用用户真实数据的示例，配合填充/空心圆点。调整滑块时圆点要求实时更新。</p></div>
+      <div class="annotation-card"><h4>休眠召回配置</h4><p>开关 + 可调的不活跃窗口（默认7天）。紫色调与休眠通知样式一致。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 6: HINATA NETWORK -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s6">
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <span class="section-title">日向坂語彙网络</span>
+    <span class="section-subtitle">63个碎片 · 3个虫洞 · 含注音</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame" style="height:810px;">
+      <div class="status-bar"><span>22:15</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+      <div class="nav-bar"><div class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><path d="M15 19l-7-7 7-7"/></svg></div><div class="nav-title-text" style="color:#F5C4B3;">日向坂語彙</div><div class="nav-count">63 fragments</div></div>
+      <div style="position:relative;height:390px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <div class="gesture-hint" style="top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" width="14" height="14"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg> drag to rotate</div>
+        <div class="sphere-wireframe" style="width:320px;height:320px;border-color:rgba(240,153,123,0.06);"></div>
+        <svg style="position:absolute;width:360px;height:340px;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;" viewBox="0 0 360 340"><line x1="155" y1="65" x2="82" y2="108" stroke="rgba(240,153,123,0.3)" stroke-width="1"/><line x1="155" y1="65" x2="230" y2="82" stroke="rgba(240,153,123,0.25)" stroke-width="0.8"/><line x1="82" y1="108" x2="55" y2="160" stroke="rgba(240,153,123,0.2)" stroke-width="0.7"/><line x1="155" y1="65" x2="130" y2="138" stroke="rgba(240,153,123,0.22)" stroke-width="0.8"/></svg>
+        <div style="position:absolute;width:360px;height:340px;top:50%;left:50%;transform:translate(-50%,-50%);">
+          <div class="word-node" style="top:42px;left:108px;background:rgba(216,90,48,0.2);border-color:rgba(240,153,123,0.4);color:#F5C4B3;">推し</div>
+          <div class="word-node" style="top:85px;left:32px;background:rgba(216,90,48,0.16);border-color:rgba(240,153,123,0.32);color:#F5C4B3;">メンバー</div>
+          <div class="word-node" style="top:60px;left:195px;background:rgba(216,90,48,0.16);border-color:rgba(240,153,123,0.3);color:#F5C4B3;">番組</div>
+          <div class="word-node" style="top:115px;left:88px;background:rgba(216,90,48,0.14);border-color:rgba(240,153,123,0.28);color:#F5C4B3;">ライブ</div>
+          <div class="word-node" style="top:108px;left:228px;background:rgba(216,90,48,0.12);border-color:rgba(240,153,123,0.25);color:#F0997B;">冠番組</div>
+          <div class="word-node mid" style="top:140px;left:8px;background:rgba(216,90,48,0.07);border-color:rgba(240,153,123,0.12);color:#D85A30;">セトリ</div>
+          <div class="word-node mid" style="top:167px;left:145px;background:rgba(216,90,48,0.07);border-color:rgba(240,153,123,0.12);color:#D85A30;">MC</div>
+          <div class="word-node mid" style="top:163px;left:260px;background:rgba(216,90,48,0.07);border-color:rgba(240,153,123,0.12);color:#D85A30;">握手会</div>
+          <div class="word-node far" style="top:235px;left:28px;background:rgba(216,90,48,0.03);border-color:rgba(240,153,123,0.05);color:#993C1D;">当選</div>
+          <div class="word-node far" style="top:242px;left:170px;background:rgba(216,90,48,0.03);border-color:rgba(240,153,123,0.05);color:#993C1D;">落選</div>
+          <div class="word-node far" style="top:228px;left:265px;background:rgba(216,90,48,0.03);border-color:rgba(240,153,123,0.05);color:#993C1D;">申し込み</div>
+          <div style="position:absolute;top:111px;left:152px;width:8px;height:8px;border-radius:50%;background:#1D9E75;box-shadow:0 0 8px rgba(29,158,117,0.5);animation:wormhole-glow 2.2s ease-in-out infinite;"></div>
+          <div style="position:absolute;top:159px;left:310px;width:8px;height:8px;border-radius:50%;background:#7F77DD;animation:wormhole-glow 2.2s ease-in-out infinite;"></div>
+        </div>
+      </div>
+      <div class="detail-popup" style="border-top:0.5px solid rgba(240,153,123,0.15);padding:16px 20px 20px;">
+        <div style="width:32px;height:3px;border-radius:2px;background:rgba(255,255,255,0.1);margin:0 auto 12px;"></div>
+        <div class="popup-header"><div style="display:flex;align-items:baseline;"><span class="popup-word">ライブ</span><span class="popup-reading">らいぶ</span><span style="display:inline-flex;padding:2px 8px;border-radius:8px;font-size:9px;margin-left:6px;background:rgba(240,153,123,0.1);color:#F0997B;border:0.5px solid rgba(240,153,123,0.15);">idol</span></div><span class="popup-pos" style="color:#D85A30;background:rgba(216,90,48,0.1);border:0.5px solid rgba(216,90,48,0.15);">名詞</span></div>
+        <div class="popup-source"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" width="13" height="13"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> 2026.03.20 · 日向坂FC抽選ページ</div>
+        <div class="popup-example"><div class="popup-example-jp">九月の<span style="color:#F0997B;font-weight:500;">ライブ</span>に参戦する予定です。</div><div class="popup-example-meaning">I plan to attend the September concert.</div><div class="popup-example-furigana"><span class="furi-kanji">九月</span><span class="furi-reading">（くがつ）</span>の<span class="furi-hl">ライブ</span>に<span class="furi-kanji">参戦</span><span class="furi-reading">（さんせん）</span>する<span class="furi-kanji">予定</span><span class="furi-reading">（よてい）</span>です。</div></div>
+        <div class="popup-example"><div class="popup-example-jp">初めて<span style="color:#F0997B;font-weight:500;">ライブ</span>を見た時、泣きそうになった。</div><div class="popup-example-meaning">The first time I saw a live show, I almost cried.</div><div class="popup-example-furigana"><span class="furi-kanji">初</span><span class="furi-reading">（はじ）</span>めて<span class="furi-hl">ライブ</span>を<span class="furi-kanji">見</span><span class="furi-reading">（み）</span>た<span class="furi-kanji">時</span><span class="furi-reading">（とき）</span>、<span class="furi-kanji">泣</span><span class="furi-reading">（な）</span>きそうになった。</div></div>
+        <div class="popup-wormhole" style="background:rgba(29,158,117,0.06);border-color:rgba(29,158,117,0.12);margin-top:10px;"><div class="wh-dot" style="background:#1D9E75;box-shadow:0 0 6px rgba(29,158,117,0.5);"></div><span style="font-size:11px;color:#9FE1CB;">移動・交通 → 宮崎への行き方</span></div>
+        <div class="popup-wormhole" style="background:rgba(239,159,39,0.06);border-color:rgba(239,159,39,0.1);"><div class="wh-dot" style="background:#EF9F27;box-shadow:0 0 6px rgba(239,159,39,0.4);"></div><span style="font-size:11px;color:#FAC775;">食・料理 → 会場の屋台メニュー</span></div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>语义聚类</h4><p>核心饭圈用语（推し、メンバー、番組）紧密聚集在前景。表演类词汇（セトリ、MC）位于中景。抽选类词汇（当選、落選）漂移到远景。</p></div>
+      <div class="annotation-card"><h4>跨网络虫洞</h4><p><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#1D9E75;vertical-align:middle;"></span> ライブ → 移動・交通（出行）<br><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#7F77DD;vertical-align:middle;"></span> 握手会 → 敬語（敬语表达）<br>按目标网络颜色编码。一个节点可以桥接多个网络。</p></div>
+      <div class="annotation-card"><h4>三层例句结构</h4><p>第一层：日文例句，目标词高亮。第二层：英文翻译。第三层：完整注音——汉字读音为teal色，目标词为coral色。只标注汉字，平假名跳过。</p></div>
+      <div class="annotation-card"><h4>AI例句中的个人记忆</h4><p>"九月のライブ"映射的是宮崎ひなたフェス。工具用日语映射你的真实生活，而非千篇一律的教材例句。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Floating Capture Modal (triggered from Screen 1 FAB) -->
+<div class="capture-modal-backdrop" id="cm-backdrop"></div>
+<div class="capture-modal" id="cm-modal">
+  <div class="cm-header">
+    <div class="cm-close" id="cm-close"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="16" height="16"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+    <span class="cm-title">new fragment</span>
+    <div class="cm-save disabled" id="cm-save">save</div>
+  </div>
+  <div class="cm-body">
+    <input type="text" class="cm-input" id="cm-input" placeholder="日本語を入力..." autocomplete="off">
+    <div class="cm-ai" id="cm-ai">
+      <div class="cm-ai-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2" width="11" height="11"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <span class="cm-ai-text" id="cm-ai-text">—</span>
+      <span class="cm-ai-reading" id="cm-ai-reading"></span>
+    </div>
+    <input type="text" class="cm-note" id="cm-note" placeholder="メモを追加（任意）...">
+    <div class="cm-tags" id="cm-tags">
+      <div class="cm-tag" data-tag="駅の看板">🚉 駅の看板</div>
+      <div class="cm-tag" data-tag="番組">📺 番組</div>
+      <div class="cm-tag" data-tag="会話">💬 会話</div>
+      <div class="cm-tag" data-tag="SNS">📱 SNS</div>
+      <div class="cm-tag" data-tag="授業">📖 授業</div>
+      <div class="cm-tag" data-tag="ゲーム">🎮 ゲーム</div>
+    </div>
+  </div>
+  <div class="cm-methods">
+    <div class="cm-method active"><div class="cm-method-icon" style="background:rgba(93,202,165,0.12);border-color:rgba(93,202,165,0.25);"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="1.5" width="20" height="20"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></div><span class="cm-method-label" style="color:#9FE1CB;">text</span></div>
+    <div class="cm-method"><div class="cm-method-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div><span class="cm-method-label">photo</span></div>
+    <div class="cm-method"><div class="cm-method-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="20" height="20"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg></div><span class="cm-method-label">voice</span></div>
+    <div class="cm-method"><div class="cm-method-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" width="20" height="20"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/></svg></div><span class="cm-method-label">paste</span></div>
+  </div>
+</div>
+<div class="cm-toast" id="cm-toast">✓ saved</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <strong>ことばの網</strong> — 可视化交互原型 v0.2 · 设计师 Kuma · 2026年5月
+</div>
+
+<!-- NAV highlighting + Capture interaction -->
+<script>
+// Nav observer
+const sections = document.querySelectorAll('.screen-section');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = entry.target.id;
+      const active = document.querySelector(`.nav-link[href="#${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-60px 0px -40% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ═══════════════════════════════
+// AI Dictionary (shared)
+// ═══════════════════════════════
+const aiDict = {
+  '電車':{pos:'名詞',meaning:'train',reading:'でんしゃ'},
+  '新幹線':{pos:'名詞',meaning:'bullet train',reading:'しんかんせん'},
+  '食べる':{pos:'動詞',meaning:'to eat',reading:'たべる'},
+  '飲む':{pos:'動詞',meaning:'to drink',reading:'のむ'},
+  '高い':{pos:'形容詞',meaning:'expensive / tall',reading:'たかい'},
+  '安い':{pos:'形容詞',meaning:'cheap',reading:'やすい'},
+  '可愛い':{pos:'形容詞',meaning:'cute',reading:'かわいい'},
+  '綺麗':{pos:'形容詞',meaning:'beautiful',reading:'きれい'},
+  '予約':{pos:'名詞',meaning:'reservation',reading:'よやく'},
+  '散歩':{pos:'名詞',meaning:'walk / stroll',reading:'さんぽ'},
+  '天気':{pos:'名詞',meaning:'weather',reading:'てんき'},
+  '約束':{pos:'名詞',meaning:'promise',reading:'やくそく'},
+  '頑張る':{pos:'動詞',meaning:'to do one\'s best',reading:'がんばる'},
+  '練習':{pos:'名詞',meaning:'practice',reading:'れんしゅう'},
+  '推し':{pos:'名詞',meaning:'fav / oshi',reading:'おし'},
+  '大丈夫':{pos:'形容詞',meaning:'okay / fine',reading:'だいじょうぶ'},
+  '面白い':{pos:'形容詞',meaning:'interesting',reading:'おもしろい'},
+  '難しい':{pos:'形容詞',meaning:'difficult',reading:'むずかしい'},
+  '乗り換え':{pos:'動詞',meaning:'transfer (trains)',reading:'のりかえ'},
+  '改札':{pos:'名詞',meaning:'ticket gate',reading:'かいさつ'},
+  '切符':{pos:'名詞',meaning:'ticket',reading:'きっぷ'},
+  '美味しい':{pos:'形容詞',meaning:'delicious',reading:'おいしい'},
+  '嬉しい':{pos:'形容詞',meaning:'happy',reading:'うれしい'},
+  '寂しい':{pos:'形容詞',meaning:'lonely',reading:'さみしい'},
+  '卒業':{pos:'名詞',meaning:'graduation',reading:'そつぎょう'},
+  '乗る':{pos:'動詞',meaning:'to ride',reading:'のる'},
+  '降りる':{pos:'動詞',meaning:'to get off',reading:'おりる'},
+  '届く':{pos:'動詞',meaning:'to arrive / reach',reading:'とどく'},
+  '届ける':{pos:'動詞',meaning:'to deliver',reading:'とどける'},
+  'ライブ':{pos:'名詞',meaning:'live concert',reading:'らいぶ'},
+  'メンバー':{pos:'名詞',meaning:'member',reading:'めんばー'},
+  '当選':{pos:'名詞',meaning:'winning (lottery)',reading:'とうせん'},
+  '落選':{pos:'名詞',meaning:'losing (lottery)',reading:'らくせん'},
+};
+
+function guessPos(val) {
+  const isKatakana = /^[\u30A0-\u30FF]+$/.test(val);
+  if (isKatakana) return '外来語';
+  if (val.endsWith('い') && val.length > 1) return '形容詞？';
+  if (val.endsWith('る') || val.endsWith('す') || val.endsWith('く') || val.endsWith('む')) return '動詞？';
+  return '名詞？';
+}
+
+function runAI(val, aiEl, textEl, readingEl) {
+  const match = aiDict[val];
+  if (match) {
+    textEl.textContent = `AI detected: ${match.pos} · ${match.meaning}`;
+    readingEl.textContent = match.reading;
+  } else {
+    textEl.textContent = `AI detected: ${guessPos(val)} · analyzing...`;
+    readingEl.textContent = '';
+  }
+  aiEl.style.opacity = '1';
+}
+
+// ═══════════════════════════════
+// Screen 3: In-phone capture
+// ═══════════════════════════════
+const s3Input = document.getElementById('s3-input');
+const s3Ai = document.getElementById('s3-ai');
+const s3AiText = document.getElementById('s3-ai-text');
+const s3AiReading = document.getElementById('s3-ai-reading');
+const s3Save = document.getElementById('s3-save');
+const s3Tags = document.getElementById('s3-tags');
+const s3Success = document.getElementById('s3-success');
+const s3SuccessWord = document.getElementById('s3-success-word');
+let s3Timeout = null;
+let s3SelectedTag = null;
+
+s3Input.addEventListener('input', () => {
+  const val = s3Input.value.trim();
+  if (!val) { s3Ai.style.opacity = '0'; s3Save.classList.add('disabled'); return; }
+  s3Save.classList.remove('disabled');
+  clearTimeout(s3Timeout);
+  s3Timeout = setTimeout(() => runAI(val, s3Ai, s3AiText, s3AiReading), 280);
+});
+
+s3Tags.addEventListener('click', e => {
+  const tag = e.target.closest('.cm-tag');
+  if (!tag) return;
+  const wasActive = tag.classList.contains('active');
+  s3Tags.querySelectorAll('.cm-tag').forEach(t => t.classList.remove('active'));
+  if (!wasActive) { tag.classList.add('active'); s3SelectedTag = tag.dataset.tag; }
+  else s3SelectedTag = null;
+});
+
+s3Save.addEventListener('click', () => {
+  const word = s3Input.value.trim();
+  if (!word) return;
+  s3SuccessWord.textContent = `「${word}」`;
+  s3Success.style.opacity = '1';
+  s3Success.style.pointerEvents = 'auto';
+  setTimeout(() => {
+    s3Success.style.opacity = '0';
+    s3Success.style.pointerEvents = 'none';
+    s3Input.value = '';
+    document.getElementById('s3-note').value = '';
+    s3Ai.style.opacity = '0';
+    s3Save.classList.add('disabled');
+    s3Tags.querySelectorAll('.cm-tag').forEach(t => t.classList.remove('active'));
+    s3SelectedTag = null;
+  }, 1600);
+});
+
+// ═══════════════════════════════
+// Floating Modal (from Screen 1 FAB)
+// ═══════════════════════════════
+const cmBackdrop = document.getElementById('cm-backdrop');
+const cmModal = document.getElementById('cm-modal');
+const cmInput = document.getElementById('cm-input');
+const cmAi = document.getElementById('cm-ai');
+const cmAiText = document.getElementById('cm-ai-text');
+const cmAiReading = document.getElementById('cm-ai-reading');
+const cmSave = document.getElementById('cm-save');
+const cmTags = document.getElementById('cm-tags');
+const cmToast = document.getElementById('cm-toast');
+let cmTimeout = null;
+let cmSelectedTag = null;
+
+function openModal() {
+  cmBackdrop.classList.add('open');
+  cmModal.classList.add('open');
+  setTimeout(() => cmInput.focus(), 100);
+}
+function closeModal() {
+  cmBackdrop.classList.remove('open');
+  cmModal.classList.remove('open');
+  cmInput.value = '';
+  document.getElementById('cm-note').value = '';
+  cmAi.classList.remove('visible');
+  cmSave.classList.add('disabled');
+  cmTags.querySelectorAll('.cm-tag').forEach(t => t.classList.remove('active'));
+  cmSelectedTag = null;
+}
+
+document.getElementById('fab-s1').addEventListener('click', openModal);
+document.getElementById('cm-close').addEventListener('click', closeModal);
+cmBackdrop.addEventListener('click', closeModal);
+
+cmInput.addEventListener('input', () => {
+  const val = cmInput.value.trim();
+  if (!val) { cmAi.classList.remove('visible'); cmSave.classList.add('disabled'); return; }
+  cmSave.classList.remove('disabled');
+  clearTimeout(cmTimeout);
+  cmTimeout = setTimeout(() => {
+    runAI(val, cmAi, cmAiText, cmAiReading);
+    cmAi.classList.add('visible');
+  }, 280);
+});
+
+cmTags.addEventListener('click', e => {
+  const tag = e.target.closest('.cm-tag');
+  if (!tag) return;
+  const wasActive = tag.classList.contains('active');
+  cmTags.querySelectorAll('.cm-tag').forEach(t => t.classList.remove('active'));
+  if (!wasActive) { tag.classList.add('active'); cmSelectedTag = tag.dataset.tag; }
+  else cmSelectedTag = null;
+});
+
+cmSave.addEventListener('click', () => {
+  const word = cmInput.value.trim();
+  if (!word) return;
+  cmToast.textContent = `✓「${word}」saved`;
+  cmToast.classList.add('show');
+  closeModal();
+  setTimeout(() => cmToast.classList.remove('show'), 1800);
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (cmModal.classList.contains('open')) {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Enter' && document.activeElement === cmInput && cmInput.value.trim()) cmSave.click();
+  }
+});
+</script>
+</body>
+</html>

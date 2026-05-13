@@ -575,7 +575,7 @@ body {
 
 <!-- NAV -->
 <nav class="top-nav">
-  <div class="nav-brand">ことばの網 <span>可视化交互原型 v0.2</span></div>
+  <div class="nav-brand">ことばの網 <span>可视化交互原型 v0.3</span></div>
   <div class="nav-links">
     <a href="#s1" class="nav-link active">全局视图</a>
     <a href="#s2" class="nav-link">网络内部</a>
@@ -583,6 +583,8 @@ body {
     <a href="#s4" class="nav-link">通知</a>
     <a href="#s5" class="nav-link">设置</a>
     <a href="#s6" class="nav-link">日向坂</a>
+    <a href="#s7" class="nav-link">织网引导</a>
+    <a href="#s8" class="nav-link">手动织网</a>
     <a href="en.html" class="nav-link" style="margin-left:8px;border-color:rgba(255,255,255,0.1);color:var(--text-tertiary);">EN</a>
   </div>
 </nav>
@@ -590,12 +592,12 @@ body {
 <!-- HERO -->
 <div class="hero">
   <h1>ことばの網</h1>
-  <p>网格化日语学习工具——六屏交互原型。每一屏配有设计规格标注、交互行为说明和视觉编码规则。</p>
+  <p>网格化日语学习工具——八屏交互原型。每一屏配有设计规格标注、交互行为说明和视觉编码规则。</p>
   <div class="hero-meta">
-    <div class="hero-meta-item"><strong>版本</strong> 0.2</div>
+    <div class="hero-meta-item"><strong>版本</strong> 0.3</div>
     <div class="hero-meta-item"><strong>日期</strong> 2026年5月</div>
     <div class="hero-meta-item"><strong>设计师</strong> Kuma</div>
-    <div class="hero-meta-item"><strong>屏数</strong> 6</div>
+    <div class="hero-meta-item"><strong>屏数</strong> 8</div>
   </div>
 </div>
 
@@ -912,6 +914,167 @@ body {
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 7: MANUAL WEAVE — TRIGGER GUIDE -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s7">
+  <div class="section-header">
+    <span class="section-number">07</span>
+    <span class="section-title">手动织网 — 交互引导</span>
+    <span class="section-subtitle">长按全局视图空白区域触发</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame" style="height:780px;">
+      <div class="status-bar"><span>22:28</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+      <div class="app-header"><div><div class="app-title">ことばの網</div><div class="app-subtitle">12 networks · 847 fragments</div></div></div>
+      <!-- Dimmed spheres background -->
+      <div style="padding:12px 16px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;opacity:0.25;">
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56 60%,#085041);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#9FE1CB;">駅</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">移動・交通</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#EF9F27,#BA7517 60%,#633806);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#FAEEDA;">食</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">食・料理</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#D4537E,#993556 60%,#4B1528);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#F4C0D1;">嬉</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">感情表現</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:66px;height:66px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7F77DD,#534AB7 60%,#26215C);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#CECBF6;">敬</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">敬語</span></div>
+      </div>
+      <!-- Long-press ripple + guide bubble -->
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;z-index:10;">
+        <div style="width:80px;height:80px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;position:relative;">
+          <div style="width:60px;height:60px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;">
+            <div style="width:40px;height:40px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;">
+              <div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);"></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 18px;max-width:220px;text-align:center;">
+          <div style="font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);line-height:1.5;">空白エリアを長押しして</div>
+          <div style="font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;color:rgba(55,138,221,0.9);margin-top:2px;">手動で織る</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px;line-height:1.5;">頭の中にネットワークが<br>浮かんだ時に使えます</div>
+        </div>
+      </div>
+      <!-- Dimmed FAB -->
+      <div style="position:absolute;bottom:84px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#5DCAA5,#1D9E75);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(29,158,117,0.4);opacity:0.35;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="22" height="22"><path d="M12 5v14M5 12h14"/></svg></div>
+      <!-- Bottom bar -->
+      <div class="bottom-bar" style="opacity:0.4;">
+        <div class="bottom-tab active"><svg viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="1.5" width="22" height="22"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg><span style="color:#5DCAA5;">networks</span></div>
+        <div class="bottom-tab"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="22" height="22"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg><span>fragments</span></div>
+        <div class="bottom-tab"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="22" height="22"><path d="M12 20V4M4 12l8-8 8 8"/></svg><span>progress</span></div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>入口设计</h4><p>长按全局视图的空白区域触发，不占用主界面任何常驻控件。与FAB采集按钮形成对比：FAB是高频日常操作所以常驻，手动织网是低频灵感时刻所以隐藏。</p></div>
+      <div class="annotation-card"><h4>涟漪手势示意</h4><p>三层同心圆从中心点向外渐隐，模拟长按的触觉反馈。视觉语言借鉴Material Design的触摸涟漪，但用更克制的线条表达。</p></div>
+      <div class="annotation-card"><h4>引导气泡</h4><p>首次使用时显示一次。「空白エリアを長押しして → 手動で織る」直接告知操作方式。底部浅色小字解释使用时机，降低认知门槛。</p></div>
+      <div class="annotation-card"><h4>背景暗化</h4><p>所有球体和FAB暗化至25-35%，将注意力完全集中到引导提示上。与通知横幅的球体暗化（30%）保持一致的设计语言。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SCREEN 8: MANUAL WEAVE — INTERFACE -->
+<!-- ═══════════════════════════════════════ -->
+<section class="screen-section" id="s8">
+  <div class="section-header">
+    <span class="section-number">08</span>
+    <span class="section-title">手动织网 — 织网界面</span>
+    <span class="section-subtitle">自然语言输入 · AI提取 · 智能补全 · 预览确认</span>
+  </div>
+  <div class="screen-layout">
+    <div class="phone-frame" style="height:840px;">
+      <div class="status-bar"><span>22:30</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
+      <!-- Nav bar -->
+      <div style="padding:0 20px 12px;display:flex;align-items:center;gap:12px;">
+        <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="16" height="16"><path d="M15 19l-7-7 7-7"/></svg></div>
+        <div style="flex:1;"><div style="font-family:'Noto Sans JP',sans-serif;font-size:17px;font-weight:500;color:#fff;">手動で織る</div><div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;">weave your own network</div></div>
+      </div>
+      <div style="height:0.5px;background:rgba(255,255,255,0.06);margin:0 20px;"></div>
+      <!-- Scrollable content area -->
+      <div style="padding:20px;overflow-y:auto;height:calc(100% - 100px);">
+        <!-- User input -->
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">あなたの気づき</div>
+          <div style="background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;min-height:72px;position:relative;">
+            <div style="font-family:'Noto Sans JP',sans-serif;font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;">届く、届ける、届け出って全部同じ漢字だ。しかも区役所で届け出を書いた時に気づいた</div>
+            <div style="position:absolute;bottom:8px;right:10px;"><div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" width="14" height="14"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg></div></div>
+          </div>
+        </div>
+        <!-- AI extracted -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <div style="width:18px;height:18px;border-radius:50%;background:rgba(55,138,221,0.15);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="2" width="10" height="10"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <span style="font-size:11px;color:rgba(55,138,221,0.7);text-transform:uppercase;letter-spacing:0.5px;">AI extracted</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+            <div style="padding:6px 12px;border-radius:20px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.25);">届く</div>
+            <div style="padding:6px 12px;border-radius:20px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.25);">届ける</div>
+            <div style="padding:6px 12px;border-radius:20px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.25);">届け出</div>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.2);margin-bottom:6px;">検出された関連</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            <div style="padding:4px 10px;border-radius:12px;font-size:10px;background:rgba(55,138,221,0.06);color:rgba(55,138,221,0.6);border:0.5px solid rgba(55,138,221,0.1);">漢字族：届</div>
+            <div style="padding:4px 10px;border-radius:12px;font-size:10px;background:rgba(29,158,117,0.06);color:rgba(29,158,117,0.6);border:0.5px solid rgba(29,158,117,0.1);">場景：区役所</div>
+            <div style="padding:4px 10px;border-radius:12px;font-size:10px;background:rgba(127,119,221,0.06);color:rgba(127,119,221,0.6);border:0.5px solid rgba(127,119,221,0.1);">活用チェーン</div>
+          </div>
+        </div>
+        <!-- AI auto-complete -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <div style="width:18px;height:18px;border-radius:50%;background:rgba(239,159,39,0.15);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="#EF9F27" stroke-width="2" width="10" height="10"><path d="M12 5v14M5 12h14"/></svg></div>
+            <span style="font-size:11px;color:rgba(239,159,39,0.7);text-transform:uppercase;letter-spacing:0.5px;">AI補完</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.2);margin-left:4px;">你已采集的相关碎片</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <div style="padding:6px 12px;border-radius:20px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;background:rgba(239,159,39,0.08);color:rgba(250,199,117,0.85);border:0.5px dashed rgba(239,159,39,0.25);">届け先</div>
+            <div style="padding:6px 12px;border-radius:20px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;background:rgba(239,159,39,0.08);color:rgba(250,199,117,0.85);border:0.5px dashed rgba(239,159,39,0.25);">届け物</div>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.2);margin-top:8px;line-height:1.5;"><span style="color:rgba(239,159,39,0.5);">↑</span> 从你的碎片库中发现。点击可移除</div>
+        </div>
+        <!-- Network preview -->
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.2);margin-bottom:10px;">ネットワークプレビュー</div>
+          <div style="background:rgba(255,255,255,0.02);border:0.5px solid rgba(55,138,221,0.12);border-radius:16px;padding:20px;position:relative;height:160px;overflow:hidden;">
+            <svg viewBox="0 0 320 140" style="width:100%;height:100%;">
+              <line x1="160" y1="35" x2="80" y2="75" stroke="rgba(55,138,221,0.2)" stroke-width="0.8"/>
+              <line x1="160" y1="35" x2="240" y2="65" stroke="rgba(55,138,221,0.2)" stroke-width="0.8"/>
+              <line x1="160" y1="35" x2="160" y2="100" stroke="rgba(55,138,221,0.15)" stroke-width="0.6"/>
+              <line x1="80" y1="75" x2="160" y2="100" stroke="rgba(55,138,221,0.12)" stroke-width="0.5"/>
+              <line x1="240" y1="65" x2="160" y2="100" stroke="rgba(55,138,221,0.12)" stroke-width="0.5"/>
+              <line x1="240" y1="65" x2="280" y2="110" stroke="rgba(239,159,39,0.1)" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <line x1="80" y1="75" x2="50" y2="120" stroke="rgba(239,159,39,0.1)" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <circle cx="160" cy="35" r="18" fill="rgba(55,138,221,0.15)" stroke="rgba(55,138,221,0.3)" stroke-width="0.5"/>
+              <text x="160" y="39" text-anchor="middle" fill="#85B7EB" font-family="Noto Sans JP,sans-serif" font-size="11" font-weight="500">届く</text>
+              <circle cx="80" cy="75" r="16" fill="rgba(55,138,221,0.12)" stroke="rgba(55,138,221,0.25)" stroke-width="0.5"/>
+              <text x="80" y="79" text-anchor="middle" fill="#85B7EB" font-family="Noto Sans JP,sans-serif" font-size="10" font-weight="500">届ける</text>
+              <circle cx="240" cy="65" r="16" fill="rgba(55,138,221,0.12)" stroke="rgba(55,138,221,0.25)" stroke-width="0.5"/>
+              <text x="240" y="69" text-anchor="middle" fill="#85B7EB" font-family="Noto Sans JP,sans-serif" font-size="10" font-weight="500">届け出</text>
+              <circle cx="160" cy="100" r="14" fill="rgba(29,158,117,0.08)" stroke="rgba(29,158,117,0.15)" stroke-width="0.5"/>
+              <text x="160" y="104" text-anchor="middle" fill="rgba(159,225,203,0.6)" font-family="Noto Sans JP,sans-serif" font-size="9">区役所</text>
+              <circle cx="50" cy="120" r="12" fill="rgba(239,159,39,0.06)" stroke="rgba(239,159,39,0.12)" stroke-width="0.5" stroke-dasharray="2,2"/>
+              <text x="50" y="124" text-anchor="middle" fill="rgba(250,199,117,0.5)" font-family="Noto Sans JP,sans-serif" font-size="8">届け先</text>
+              <circle cx="280" cy="110" r="12" fill="rgba(239,159,39,0.06)" stroke="rgba(239,159,39,0.12)" stroke-width="0.5" stroke-dasharray="2,2"/>
+              <text x="280" y="114" text-anchor="middle" fill="rgba(250,199,117,0.5)" font-family="Noto Sans JP,sans-serif" font-size="8">届け物</text>
+            </svg>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px;justify-content:center;">
+            <div style="display:flex;align-items:center;gap:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#378ADD;"></div><span style="font-size:9px;color:rgba(255,255,255,0.25);">用户指定</span></div>
+            <div style="display:flex;align-items:center;gap:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#EF9F27;opacity:0.5;"></div><span style="font-size:9px;color:rgba(255,255,255,0.25);">AI补全</span></div>
+            <div style="display:flex;align-items:center;gap:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#1D9E75;opacity:0.5;"></div><span style="font-size:9px;color:rgba(255,255,255,0.25);">场景节点</span></div>
+          </div>
+        </div>
+        <!-- Action buttons -->
+        <div style="display:flex;gap:8px;padding:0 0 20px;">
+          <div style="flex:1;padding:12px;border-radius:14px;background:rgba(55,138,221,0.1);border:0.5px solid rgba(55,138,221,0.2);text-align:center;font-size:14px;font-weight:500;color:#85B7EB;">ネットワーク生成</div>
+          <div style="padding:12px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);text-align:center;font-size:14px;color:rgba(255,255,255,0.35);">やめる</div>
+        </div>
+      </div>
+    </div>
+    <div class="annotations">
+      <div class="annotation-card"><h4>自然语言输入</h4><p>用户用任何语言描述脑中闪过的关联，支持语音输入。不需要结构化格式，AI负责提取和整理。</p></div>
+      <div class="annotation-card"><h4>AI提取</h4><p>从用户描述中识别出碎片（蓝色实线标签）和关联维度（漢字族、場景、活用チェーン）。颜色编码区分不同维度类型。</p></div>
+      <div class="annotation-card"><h4>AI补全</h4><p>从用户已采集的碎片库中找到相关但未被提及的词汇（琥珀色虚线标签）。点击可移除。这个瞬间让用户感到"系统懂我"。</p></div>
+      <div class="annotation-card"><h4>网络预览</h4><p>力导向图预览：用户指定节点（蓝色实线）、AI补全节点（琥珀色虚线）、场景节点（teal色）。确认后直接进入全局视图的新球体。</p></div>
+      <div class="annotation-card"><h4>设计决策</h4><p>系统不应是唯一拥有建网权力的角色。用户的直觉和AI的计算是互补的——有时大脑比算法更快地完成了模式识别。这个功能捕捉那些灵光一闪。</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- Floating Capture Modal (triggered from Screen 1 FAB) -->
 <div class="capture-modal-backdrop" id="cm-backdrop"></div>
 <div class="capture-modal" id="cm-modal">
@@ -948,7 +1111,7 @@ body {
 
 <!-- FOOTER -->
 <div class="page-footer">
-  <strong>ことばの網</strong> — 可视化交互原型 v0.2 · 设计师 Kuma · 2026年5月
+  <strong>ことばの網</strong> — 可视化交互原型 v0.3 · 设计师 Kuma · 2026年5月
 </div>
 
 <!-- NAV highlighting + Capture interaction -->

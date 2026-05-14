@@ -264,6 +264,7 @@ body {
 .sphere-item:hover { transform: scale(1.06); }
 .sphere-ring { position: absolute; border-radius: 50%; border: 0.5px solid; opacity: 0.5; animation: pulse-ring 4s ease-in-out infinite; }
 @keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:0.3;} 50%{transform:scale(1.04);opacity:0.6;} }
+@keyframes breathe-sphere { 0%,100%{transform:scale(1);opacity:0.85;} 50%{transform:scale(1.045);opacity:1;} }
 .sphere-core { border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 .sphere-core::before { content:''; position:absolute; top:15%; left:20%; width:30%; height:25%; background:rgba(255,255,255,0.15); border-radius:50%; filter:blur(6px); }
 .sphere-keywords { position:absolute; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; }
@@ -569,6 +570,98 @@ body {
 /* Make Screen 1 FAB clickable */
 .fab-interactive { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
 .fab-interactive:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(29,158,117,0.5); }
+
+/* ── Design document text sections ── */
+.doc-section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  scroll-margin-top: 70px;
+}
+.doc-section + .doc-section { border-top: 0.5px solid var(--border); }
+.doc-section + .screen-section { border-top: 0.5px solid var(--border); }
+.doc-section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  color: var(--teal-500); text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.doc-h2 {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 24px; font-weight: 500; color: var(--text-primary);
+  letter-spacing: -0.3px; margin-bottom: 16px;
+}
+.doc-h3 {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px; font-weight: 500; color: var(--text-primary);
+  margin-bottom: 10px; margin-top: 32px;
+}
+.doc-body {
+  font-size: 14px; line-height: 1.85; color: var(--text-secondary);
+  max-width: 640px;
+}
+.doc-body + .doc-body { margin-top: 12px; }
+.doc-body strong { color: var(--text-primary); font-weight: 500; }
+.doc-body em { color: var(--teal-300); font-style: normal; }
+
+.doc-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px; margin-top: 20px;
+}
+.doc-card {
+  padding: 18px 20px; border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid var(--border);
+}
+.doc-card-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.doc-card-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px; font-weight: 500; color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.doc-card-body {
+  font-size: 12px; line-height: 1.7; color: var(--text-secondary);
+}
+.doc-card-body strong { color: var(--text-primary); font-weight: 500; }
+
+.doc-spec-row {
+  display: flex; gap: 12px; padding: 10px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+}
+.doc-spec-row:last-child { border-bottom: none; }
+.doc-spec-label {
+  width: 100px; flex-shrink: 0;
+  color: var(--text-tertiary); font-size: 12px;
+}
+.doc-spec-value { color: var(--text-secondary); line-height: 1.6; }
+
+.loop-diagram {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin: 28px 0; flex-wrap: wrap;
+}
+.loop-node {
+  padding: 14px 20px; border-radius: 14px; text-align: center;
+  min-width: 140px;
+}
+.loop-node-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px; font-weight: 500; margin-bottom: 4px;
+}
+.loop-node-sub { font-size: 10px; opacity: 0.6; }
+.loop-arrow {
+  font-size: 18px; color: rgba(255,255,255,0.15);
+  padding: 0 8px;
+}
+
+@media (max-width: 900px) {
+  .doc-section { padding: 40px 16px; }
+  .doc-h2 { font-size: 20px; }
+  .loop-diagram { flex-direction: column; gap: 8px; }
+  .loop-arrow { transform: rotate(90deg); }
+}
 </style>
 </head>
 <body>
@@ -577,7 +670,8 @@ body {
 <nav class="top-nav">
   <div class="nav-brand">ことばの網 <span>可视化交互原型 v0.3</span></div>
   <div class="nav-links">
-    <a href="#s1" class="nav-link active">全局视图</a>
+    <a href="#overview" class="nav-link active">概述</a>
+    <a href="#s1" class="nav-link">全局视图</a>
     <a href="#s2" class="nav-link">网络内部</a>
     <a href="#s3" class="nav-link">碎片采集</a>
     <a href="#s4" class="nav-link">通知</a>
@@ -602,6 +696,134 @@ body {
 </div>
 
 <!-- ═══════════════════════════════════════ -->
+<!-- DESIGN DOCUMENT: OVERVIEW -->
+<!-- ═══════════════════════════════════════ -->
+<div class="doc-section" id="overview">
+  <div class="doc-section-label">Product Vision</div>
+  <div class="doc-h2">为什么需要ことばの網</div>
+  <div class="doc-body">传统日语学习工具——Anki、教科书、线性课程——都建立在一个前提上：<strong>学A，再学B，再学C</strong>。这种顺序模型对大多数人有效，但对另一类学习者来说是灾难性的。</div>
+  <div class="doc-body">网格化思维者（mesh thinkers）的认知方式是<em>先积累原始碎片，在脑中自然形成关联网络</em>，直到某个临界点突然"全部串起来"。他们不需要别人告诉他们A和B有关系——他们需要的是一个安全的地方来倾倒碎片，然后等待模式自发涌现。</div>
+  <div class="doc-body">ことばの網就是为这类学习者设计的。<strong>用户只做一件事：收集。</strong>系统完成剩下的一切——分析关联、构建网络、在正确的时间通知你。</div>
+</div>
+
+<div class="doc-section">
+  <div class="doc-section-label">Target User</div>
+  <div class="doc-h2">谁会用这个工具</div>
+  <div class="doc-grid">
+    <div class="doc-card">
+      <div class="doc-card-title">居住在日本的学习者</div>
+      <div class="doc-card-body">N4-N1水平，每天有大量日语输入——车站路标、综艺节目、SNS、同事对话——但<strong>无法系统性地组织</strong>这些零散信息。</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-title">非线性认知风格</div>
+      <div class="doc-card-body">需要<strong>先建立整体框架再填充细节</strong>的思维方式。无法在没有全貌的情况下记忆孤立知识点。Anki对他们来说是一种惩罚。</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-title">理解力 > 表达力</div>
+      <div class="doc-card-body">能听懂综艺节目70%的内容，但自己张嘴说不出来。<strong>知识存在，却无法按需调用</strong>——这是碎片未成网的典型症状。</div>
+    </div>
+  </div>
+</div>
+
+<div class="doc-section">
+  <div class="doc-section-label">System Architecture</div>
+  <div class="doc-h2">三模块闭环</div>
+  <div class="doc-body">系统由三个模块构成自我强化循环：采集的碎片越多 → 形成的网络越多 → 触发的通知越多 → 用户采集的动力越强。</div>
+  <div class="loop-diagram">
+    <div class="loop-node" style="background:rgba(29,158,117,0.08);border:0.5px solid rgba(29,158,117,0.15);">
+      <div class="loop-node-title" style="color:#5DCAA5;">碎片采集</div>
+      <div class="loop-node-sub" style="color:#5DCAA5;">用户主动 · 极简</div>
+    </div>
+    <div class="loop-arrow">→</div>
+    <div class="loop-node" style="background:rgba(55,138,221,0.08);border:0.5px solid rgba(55,138,221,0.15);">
+      <div class="loop-node-title" style="color:#85B7EB;">AI关联引擎</div>
+      <div class="loop-node-sub" style="color:#85B7EB;">后台自动 · 零负担</div>
+    </div>
+    <div class="loop-arrow">→</div>
+    <div class="loop-node" style="background:rgba(239,159,39,0.08);border:0.5px solid rgba(239,159,39,0.15);">
+      <div class="loop-node-title" style="color:#FAC775;">智能触发</div>
+      <div class="loop-node-sub" style="color:#FAC775;">推送通知 · 惊喜感</div>
+    </div>
+    <div class="loop-arrow">→ 🔄</div>
+  </div>
+
+  <div class="doc-h3">模块一：碎片采集</div>
+  <div class="doc-body">核心原则是<strong>趋近零摩擦</strong>。如果保存一个碎片需要超过3次点击，用户就会放弃使用。四种输入方式（文本、拍照OCR、语音、剪贴板），可选的来源标签和备注作为个人记忆锚点。所有结构化工作在后台自动完成。</div>
+
+  <div class="doc-h3">模块二：AI关联引擎</div>
+  <div class="doc-body">双层网络结构：<em>语言维度</em>（汉字族、同音词、语法结构、语义关系、活用链）自动分析；<em>个人记忆维度</em>（场景聚类、时间线近似、来源共现）从元数据中提取。AI计算力导向图布局，映射到3D球面上——空间距离 = 关联距离。</div>
+
+  <div class="doc-h3">模块三：智能触发</div>
+  <div class="doc-body">当碎片之间积累了<strong>3条独立关联路径</strong>（默认阈值，可调2-5），系统判定网络形成并通知用户。7天不活跃时阈值自动降低1级，从已有碎片中生成新网络作为召回手段——通知中明确标注"阈值已降低"，确保完全透明。</div>
+</div>
+
+<div class="doc-section">
+  <div class="doc-section-label">Interaction Philosophy</div>
+  <div class="doc-h2">交互设计理念</div>
+  <div class="doc-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="doc-card">
+      <div class="doc-card-label" style="color:var(--teal-300);">空间导航</div>
+      <div class="doc-card-title">镜头推拉，而非页面跳转</div>
+      <div class="doc-card-body">全局到局部是一个连续的镜头运动——点击球体，镜头推入，球体展开。双指外扩，镜头拉远，回到全局。<strong>没有任何页面转场</strong>，整个应用是一个无缝的3D空间。</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-label" style="color:var(--coral-300);">深度编码</div>
+      <div class="doc-card-title">距离即关联强度</div>
+      <div class="doc-card-body">网络内部的词汇节点分为近景（100%透明度）、中景（55%）、远景（25%）三层。<strong>物理空间映射认知距离</strong>——越常一起出现的词越靠近。</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-label" style="color:var(--purple-300);">虫洞穿越</div>
+      <div class="doc-card-title">跨网络的意外发现</div>
+      <div class="doc-card-body">共享节点连接不同网络。点击虫洞链接，镜头飞越到目标球体。两种探索模式：<strong>浏览</strong>（全局→选择→进入）和<strong>探索</strong>（球体→虫洞→球体），模拟思维的自由联想。</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-label" style="color:var(--amber-500);">人机协作织网</div>
+      <div class="doc-card-title">用户直觉 + AI计算</div>
+      <div class="doc-card-body">系统不是唯一拥有建网权力的角色。当用户脑中灵光一闪，可以长按空白区域手动织网——用自然语言描述关联，AI提取、补全、生成。<strong>有时大脑比算法更快。</strong></div>
+    </div>
+  </div>
+</div>
+
+<div class="doc-section">
+  <div class="doc-section-label">Visual System</div>
+  <div class="doc-h2">视觉系统</div>
+  <div class="doc-body">暗色主题（#0a0c14底色）确保球体的色彩编码在视觉上最突出。每个网络拥有唯一色谱，在全局视图、网络内部、弹窗、通知中保持一致，构建空间记忆线索。</div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;">
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(29,158,117,0.08);border:0.5px solid rgba(29,158,117,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#1D9E75;"></div><span style="font-size:12px;color:#9FE1CB;">移動・交通</span></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(239,159,39,0.08);border:0.5px solid rgba(239,159,39,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#EF9F27;"></div><span style="font-size:12px;color:#FAC775;">食・料理</span></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(212,83,126,0.08);border:0.5px solid rgba(212,83,126,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#D4537E;"></div><span style="font-size:12px;color:#F4C0D1;">感情表現</span></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(83,74,183,0.08);border:0.5px solid rgba(83,74,183,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#534AB7;"></div><span style="font-size:12px;color:#CECBF6;">敬語</span></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(55,138,221,0.08);border:0.5px solid rgba(55,138,221,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#378ADD;"></div><span style="font-size:12px;color:#85B7EB;">届 family</span></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(216,90,48,0.08);border:0.5px solid rgba(216,90,48,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#D85A30;"></div><span style="font-size:12px;color:#F5C4B3;">日向坂語彙</span></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:rgba(99,153,34,0.08);border:0.5px solid rgba(99,153,34,0.15);"><div style="width:12px;height:12px;border-radius:50%;background:#639922;"></div><span style="font-size:12px;color:#C0DD97;">ゲーム用語</span></div>
+  </div>
+  <div class="doc-h3">动效规范</div>
+  <div style="margin-top:12px;">
+    <div class="doc-spec-row"><div class="doc-spec-label">球体展开</div><div class="doc-spec-value">~400ms 弹簧缓动</div></div>
+    <div class="doc-spec-row"><div class="doc-spec-label">球体收缩</div><div class="doc-spec-value">~350ms 连续缩放</div></div>
+    <div class="doc-spec-row"><div class="doc-spec-label">连接线淡入</div><div class="doc-spec-value">300ms 缓动，与手指速度同步</div></div>
+    <div class="doc-spec-row"><div class="doc-spec-label">详情弹窗</div><div class="doc-spec-value">300ms 弹簧 ease-out</div></div>
+    <div class="doc-spec-row"><div class="doc-spec-label">虫洞飞越</div><div class="doc-spec-value">~600ms 空间视差</div></div>
+  </div>
+</div>
+
+<div class="doc-section" style="border-bottom: 0.5px solid var(--border);">
+  <div class="doc-section-label">Screen Index</div>
+  <div class="doc-h2">交互原型索引</div>
+  <div class="doc-body">以下八屏涵盖了ことばの網的完整交互流程——从全局鸟瞰到网络深潜，从碎片采集到智能通知，从系统设置到用户主导的手动织网。</div>
+  <div class="doc-grid" style="grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:10px;margin-top:20px;">
+    <a href="#s1" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;transition:border-color 0.2s;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">01</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">全局视图</div></div></a>
+    <a href="#s2" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">02</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">网络内部</div></div></a>
+    <a href="#s3" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">03</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">碎片采集</div></div></a>
+    <a href="#s4" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">04</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">通知状态</div></div></a>
+    <a href="#s5" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">05</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">设置</div></div></a>
+    <a href="#s6" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">06</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">日向坂語彙</div></div></a>
+    <a href="#s7" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">07</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">织网引导</div></div></a>
+    <a href="#s8" style="text-decoration:none;"><div class="doc-card" style="text-align:center;cursor:pointer;"><div style="font-size:11px;color:var(--teal-300);font-weight:600;margin-bottom:4px;">08</div><div style="font-size:13px;color:var(--text-primary);font-weight:500;">手动织网</div></div></a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
 <!-- SCREEN 1: GLOBAL VIEW -->
 <!-- ═══════════════════════════════════════ -->
 <section class="screen-section" id="s1">
@@ -614,24 +836,28 @@ body {
     <div class="phone-frame">
       <div class="status-bar"><span>21:02</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
       <div class="app-header"><div><div class="app-title">ことばの網</div><div class="app-subtitle">12 networks · 847 fragments</div></div><div style="display:flex;gap:8px;"><div class="header-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><circle cx="11" cy="11" r="7"/><path d="M16 16l4 4"/></svg></div><div class="header-btn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" width="18" height="18"><path d="M12 3v1m0 16v1m-8-9H3m18 0h-1"/></svg></div></div></div>
-      <div class="sphere-canvas">
-        <div class="sphere-row">
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-ring" style="width:120px;height:120px;border-color:rgba(93,202,165,0.4);"></div><div class="sphere-core" style="width:94px;height:94px;background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56 60%,#085041);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#9FE1CB;">駅</span><span class="sphere-keyword" style="color:#9FE1CB;opacity:0.6;">乗り換え</span><span class="sphere-keyword" style="color:#9FE1CB;opacity:0.45;">改札</span></div></div></div><div class="sphere-label">移動・交通</div><div class="sphere-count">38 fragments</div></div>
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-ring" style="width:130px;height:130px;border-color:rgba(239,159,39,0.35);"></div><div class="sphere-core" style="width:102px;height:102px;background:radial-gradient(circle at 35% 30%,#EF9F27,#BA7517 60%,#633806);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#FAEEDA;">注文</span><span class="sphere-keyword" style="color:#FAEEDA;opacity:0.65;">美味しい</span><span class="sphere-keyword" style="color:#FAEEDA;opacity:0.45;">焼く</span></div></div><div class="sphere-new-badge">2</div></div><div class="sphere-label">食・料理</div><div class="sphere-count">52 fragments</div></div>
+      <div class="sphere-canvas" style="height:560px;gap:18px;padding:4px 8px;">
+        <!-- Row 1: Transport + Food -->
+        <div class="sphere-row" style="gap:18px;">
+          <div class="sphere-item"><div style="width:110px;height:110px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite;"><svg width="110" height="110" viewBox="0 0 110 110" style="position:absolute;top:0;left:0;"><defs><filter id="s1b"><feGaussianBlur stdDeviation="4"/></filter></defs><g transform="translate(55,55)" filter="url(#s1b)" opacity="0.5"><ellipse rx="42" ry="20" fill="none" stroke="#5DCAA5" stroke-width="1.8"/><ellipse rx="20" ry="42" fill="none" stroke="#5DCAA5" stroke-width="1.5"/><ellipse rx="42" ry="20" fill="none" stroke="#5DCAA5" stroke-width="1.5" transform="rotate(60)"/><ellipse rx="42" ry="20" fill="none" stroke="#5DCAA5" stroke-width="1.5" transform="rotate(-60)"/><ellipse rx="42" ry="20" fill="none" stroke="#5DCAA5" stroke-width="1.2" transform="rotate(30)"/><ellipse rx="42" ry="20" fill="none" stroke="#5DCAA5" stroke-width="1.2" transform="rotate(-30)"/><circle r="6" fill="rgba(93,202,165,0.3)"/></g></svg><svg width="110" height="110" viewBox="0 0 110 110" style="position:absolute;top:0;left:0;"><g transform="translate(55,55)"><ellipse rx="42" ry="42" fill="none" stroke="rgba(93,202,165,0.12)" stroke-width="0.4"/><ellipse rx="42" ry="20" fill="none" stroke="rgba(93,202,165,0.5)" stroke-width="0.6"/><ellipse rx="20" ry="42" fill="none" stroke="rgba(93,202,165,0.4)" stroke-width="0.5"/><ellipse rx="42" ry="20" fill="none" stroke="rgba(93,202,165,0.35)" stroke-width="0.5" transform="rotate(60)"/><ellipse rx="42" ry="20" fill="none" stroke="rgba(93,202,165,0.35)" stroke-width="0.5" transform="rotate(-60)"/><ellipse rx="42" ry="20" fill="none" stroke="rgba(93,202,165,0.25)" stroke-width="0.4" transform="rotate(30)"/><ellipse rx="42" ry="20" fill="none" stroke="rgba(93,202,165,0.25)" stroke-width="0.4" transform="rotate(-30)"/><circle r="3" fill="rgba(93,202,165,0.6)"/></g><text x="55" y="42" text-anchor="middle" fill="rgba(159,225,203,0.95)" font-size="11" font-weight="500" font-family="Noto Sans JP,sans-serif">駅</text><text x="55" y="56" text-anchor="middle" fill="rgba(159,225,203,0.6)" font-size="8" font-family="Noto Sans JP,sans-serif">乗り換え</text><text x="55" y="67" text-anchor="middle" fill="rgba(159,225,203,0.4)" font-size="7" font-family="Noto Sans JP,sans-serif">改札</text></svg></div><div class="sphere-label" style="color:rgba(159,225,203,0.6);">移動・交通</div><div class="sphere-count">38 fragments</div></div>
+          <div class="sphere-item"><div style="width:125px;height:125px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 0.8s;"><svg width="125" height="125" viewBox="0 0 125 125" style="position:absolute;top:0;left:0;"><defs><filter id="s1c"><feGaussianBlur stdDeviation="4.5"/></filter></defs><g transform="translate(62.5,62.5)" filter="url(#s1c)" opacity="0.45"><ellipse rx="50" ry="22" fill="none" stroke="#FAC775" stroke-width="2"/><ellipse rx="22" ry="50" fill="none" stroke="#FAC775" stroke-width="1.8"/><ellipse rx="50" ry="22" fill="none" stroke="#FAC775" stroke-width="1.5" transform="rotate(60)"/><ellipse rx="50" ry="22" fill="none" stroke="#FAC775" stroke-width="1.5" transform="rotate(-60)"/><ellipse rx="50" ry="22" fill="none" stroke="#FAC775" stroke-width="1.2" transform="rotate(30)"/><ellipse rx="50" ry="22" fill="none" stroke="#FAC775" stroke-width="1.2" transform="rotate(-30)"/><circle r="7" fill="rgba(250,199,117,0.3)"/></g></svg><svg width="125" height="125" viewBox="0 0 125 125" style="position:absolute;top:0;left:0;"><g transform="translate(62.5,62.5)"><ellipse rx="50" ry="50" fill="none" stroke="rgba(250,199,117,0.1)" stroke-width="0.4"/><ellipse rx="50" ry="22" fill="none" stroke="rgba(250,199,117,0.5)" stroke-width="0.6"/><ellipse rx="22" ry="50" fill="none" stroke="rgba(250,199,117,0.4)" stroke-width="0.5"/><ellipse rx="50" ry="22" fill="none" stroke="rgba(250,199,117,0.35)" stroke-width="0.5" transform="rotate(60)"/><ellipse rx="50" ry="22" fill="none" stroke="rgba(250,199,117,0.35)" stroke-width="0.5" transform="rotate(-60)"/><ellipse rx="50" ry="22" fill="none" stroke="rgba(250,199,117,0.25)" stroke-width="0.4" transform="rotate(30)"/><ellipse rx="50" ry="22" fill="none" stroke="rgba(250,199,117,0.25)" stroke-width="0.4" transform="rotate(-30)"/><circle r="3" fill="rgba(250,199,117,0.6)"/></g><text x="62.5" y="50" text-anchor="middle" fill="rgba(250,199,117,0.95)" font-size="11" font-weight="500" font-family="Noto Sans JP,sans-serif">注文</text><text x="62.5" y="64" text-anchor="middle" fill="rgba(250,199,117,0.6)" font-size="8" font-family="Noto Sans JP,sans-serif">美味しい</text><text x="62.5" y="75" text-anchor="middle" fill="rgba(250,199,117,0.4)" font-size="7" font-family="Noto Sans JP,sans-serif">焼く</text></svg><div style="position:absolute;top:-2px;right:0;width:18px;height:18px;border-radius:50%;background:rgba(239,159,39,0.85);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#412402;">2</div></div><div class="sphere-label" style="color:rgba(250,199,117,0.6);">食・料理</div><div class="sphere-count">52 fragments</div></div>
         </div>
-        <div class="sphere-row">
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:76px;height:76px;background:radial-gradient(circle at 35% 30%,#D4537E,#993556 60%,#4B1528);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#F4C0D1;">嬉しい</span><span class="sphere-keyword" style="color:#F4C0D1;opacity:0.55;">悔しい</span></div></div></div><div class="sphere-label">感情表現</div><div class="sphere-count">27 fragments</div></div>
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:84px;height:84px;background:radial-gradient(circle at 35% 30%,#7F77DD,#534AB7 60%,#26215C);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#CECBF6;">いただく</span><span class="sphere-keyword" style="color:#CECBF6;opacity:0.6;">ございます</span></div></div></div><div class="sphere-label">敬語</div><div class="sphere-count">34 fragments</div></div>
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:70px;height:70px;background:radial-gradient(circle at 35% 30%,#378ADD,#185FA5 60%,#042C53);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#B5D4F4;">届く</span><span class="sphere-keyword" style="color:#B5D4F4;opacity:0.55;">届ける</span></div></div><div class="sphere-new-badge">!</div></div><div class="sphere-label">届 family</div><div class="sphere-count">8 · new</div></div>
+        <!-- Row 2: Emotion + Keigo + 届 -->
+        <div class="sphere-row" style="gap:12px;">
+          <div class="sphere-item"><div style="width:88px;height:88px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 1.6s;"><svg width="88" height="88" viewBox="0 0 88 88" style="position:absolute;top:0;left:0;"><defs><filter id="s1d"><feGaussianBlur stdDeviation="3.5"/></filter><filter id="s1dh"><feGaussianBlur stdDeviation="6"/></filter></defs><g transform="translate(44,44)" filter="url(#s1dh)" opacity="0.18"><circle r="34" fill="none" stroke="#F4C0D1" stroke-width="1.5"/></g><g transform="translate(44,44)" filter="url(#s1d)" opacity="0.45"><ellipse rx="34" ry="15" fill="none" stroke="#F4C0D1" stroke-width="1.5"/><ellipse rx="15" ry="34" fill="none" stroke="#F4C0D1" stroke-width="1.3"/><ellipse rx="34" ry="15" fill="none" stroke="#F4C0D1" stroke-width="1.2" transform="rotate(60)"/><ellipse rx="34" ry="15" fill="none" stroke="#F4C0D1" stroke-width="1.2" transform="rotate(-60)"/><circle r="5" fill="rgba(244,192,209,0.25)"/></g></svg><svg width="88" height="88" viewBox="0 0 88 88" style="position:absolute;top:0;left:0;"><g transform="translate(44,44)"><circle r="34" fill="none" stroke="rgba(244,192,209,0.07)" stroke-width="0.5"/><ellipse rx="34" ry="15" fill="none" stroke="rgba(244,192,209,0.5)" stroke-width="0.6"/><ellipse rx="15" ry="34" fill="none" stroke="rgba(244,192,209,0.4)" stroke-width="0.5"/><ellipse rx="34" ry="15" fill="none" stroke="rgba(244,192,209,0.3)" stroke-width="0.4" transform="rotate(60)"/><ellipse rx="34" ry="15" fill="none" stroke="rgba(244,192,209,0.3)" stroke-width="0.4" transform="rotate(-60)"/><circle r="2.5" fill="rgba(244,192,209,0.55)"/></g><text x="44" y="38" text-anchor="middle" fill="rgba(244,192,209,0.95)" font-size="9" font-weight="500" font-family="Noto Sans JP,sans-serif">嬉しい</text><text x="44" y="52" text-anchor="middle" fill="rgba(244,192,209,0.5)" font-size="7" font-family="Noto Sans JP,sans-serif">悔しい</text></svg></div><div class="sphere-label" style="color:rgba(244,192,209,0.6);">感情表現</div><div class="sphere-count">27 fragments</div></div>
+          <div class="sphere-item"><div style="width:92px;height:92px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 2.4s;"><svg width="92" height="92" viewBox="0 0 92 92" style="position:absolute;top:0;left:0;"><defs><filter id="s1e"><feGaussianBlur stdDeviation="3.5"/></filter><filter id="s1eh"><feGaussianBlur stdDeviation="6"/></filter></defs><g transform="translate(46,46)" filter="url(#s1eh)" opacity="0.18"><circle r="36" fill="none" stroke="#CECBF6" stroke-width="1.5"/></g><g transform="translate(46,46)" filter="url(#s1e)" opacity="0.45"><ellipse rx="36" ry="16" fill="none" stroke="#CECBF6" stroke-width="1.5"/><ellipse rx="16" ry="36" fill="none" stroke="#CECBF6" stroke-width="1.3"/><ellipse rx="36" ry="16" fill="none" stroke="#CECBF6" stroke-width="1.2" transform="rotate(60)"/><ellipse rx="36" ry="16" fill="none" stroke="#CECBF6" stroke-width="1.2" transform="rotate(-60)"/><circle r="5" fill="rgba(206,203,246,0.25)"/></g></svg><svg width="92" height="92" viewBox="0 0 92 92" style="position:absolute;top:0;left:0;"><g transform="translate(46,46)"><circle r="36" fill="none" stroke="rgba(206,203,246,0.07)" stroke-width="0.5"/><ellipse rx="36" ry="16" fill="none" stroke="rgba(206,203,246,0.45)" stroke-width="0.6"/><ellipse rx="16" ry="36" fill="none" stroke="rgba(206,203,246,0.35)" stroke-width="0.5"/><ellipse rx="36" ry="16" fill="none" stroke="rgba(206,203,246,0.3)" stroke-width="0.4" transform="rotate(60)"/><ellipse rx="36" ry="16" fill="none" stroke="rgba(206,203,246,0.3)" stroke-width="0.4" transform="rotate(-60)"/><circle r="2.5" fill="rgba(206,203,246,0.55)"/></g><text x="46" y="40" text-anchor="middle" fill="rgba(206,203,246,0.95)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">いただく</text><text x="46" y="54" text-anchor="middle" fill="rgba(206,203,246,0.5)" font-size="7" font-family="Noto Sans JP,sans-serif">ございます</text></svg></div><div class="sphere-label" style="color:rgba(206,203,246,0.6);">敬語</div><div class="sphere-count">34 fragments</div></div>
+          <div class="sphere-item"><div style="width:76px;height:76px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 0.4s;"><svg width="76" height="76" viewBox="0 0 76 76" style="position:absolute;top:0;left:0;"><defs><filter id="s1f"><feGaussianBlur stdDeviation="3"/></filter><filter id="s1fh"><feGaussianBlur stdDeviation="5"/></filter></defs><g transform="translate(38,38)" filter="url(#s1fh)" opacity="0.2"><circle r="28" fill="none" stroke="#85B7EB" stroke-width="1.5"/></g><g transform="translate(38,38)" filter="url(#s1f)" opacity="0.45"><ellipse rx="28" ry="12" fill="none" stroke="#85B7EB" stroke-width="1.5"/><ellipse rx="12" ry="28" fill="none" stroke="#85B7EB" stroke-width="1.3"/><ellipse rx="28" ry="12" fill="none" stroke="#85B7EB" stroke-width="1.2" transform="rotate(60)"/><ellipse rx="28" ry="12" fill="none" stroke="#85B7EB" stroke-width="1.2" transform="rotate(-60)"/><circle r="4" fill="rgba(133,183,235,0.25)"/></g></svg><svg width="76" height="76" viewBox="0 0 76 76" style="position:absolute;top:0;left:0;"><g transform="translate(38,38)"><circle r="28" fill="none" stroke="rgba(133,183,235,0.08)" stroke-width="0.5"/><ellipse rx="28" ry="12" fill="none" stroke="rgba(133,183,235,0.5)" stroke-width="0.6"/><ellipse rx="12" ry="28" fill="none" stroke="rgba(133,183,235,0.4)" stroke-width="0.5"/><ellipse rx="28" ry="12" fill="none" stroke="rgba(133,183,235,0.3)" stroke-width="0.4" transform="rotate(60)"/><ellipse rx="28" ry="12" fill="none" stroke="rgba(133,183,235,0.3)" stroke-width="0.4" transform="rotate(-60)"/><circle r="2.5" fill="rgba(133,183,235,0.55)"/></g><text x="38" y="33" text-anchor="middle" fill="rgba(133,183,235,0.95)" font-size="9" font-weight="500" font-family="Noto Sans JP,sans-serif">届く</text><text x="38" y="46" text-anchor="middle" fill="rgba(133,183,235,0.5)" font-size="7" font-family="Noto Sans JP,sans-serif">届ける</text></svg><div style="position:absolute;top:-4px;right:-2px;width:16px;height:16px;border-radius:50%;background:rgba(239,159,39,0.85);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;color:#412402;">!</div></div><div class="sphere-label" style="color:rgba(133,183,235,0.6);">届 family</div><div class="sphere-count">8 · new</div></div>
         </div>
-        <div class="sphere-row">
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:88px;height:88px;background:radial-gradient(circle at 35% 30%,#F0997B,#D85A30 60%,#712B13);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#FAECE7;">推し</span><span class="sphere-keyword" style="color:#FAECE7;opacity:0.6;">メンバー</span><span class="sphere-keyword" style="color:#FAECE7;opacity:0.4;">番組</span></div></div></div><div class="sphere-label">日向坂語彙</div><div class="sphere-count">63 fragments</div></div>
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:78px;height:78px;background:radial-gradient(circle at 35% 30%,#97C459,#639922 60%,#173404);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#EAF3DE;">攻撃</span><span class="sphere-keyword" style="color:#EAF3DE;opacity:0.55;">装備</span></div></div></div><div class="sphere-label">ゲーム用語</div><div class="sphere-count">41 fragments</div></div>
-          <div class="sphere-item"><div style="position:relative;"><div class="sphere-core" style="width:52px;height:52px;background:radial-gradient(circle at 35% 30%,#888780,#5F5E5A 60%,#2C2C2A);"><div class="sphere-keywords"><span class="sphere-keyword" style="color:#D3D1C7;font-size:7px;">天気</span></div></div></div><div class="sphere-label">天気</div><div class="sphere-count">5 fragments</div></div>
+        <!-- Row 3: Hinata + Game + Weather -->
+        <div class="sphere-row" style="gap:12px;">
+          <div class="sphere-item"><div style="width:105px;height:105px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 1.2s;"><svg width="105" height="105" viewBox="0 0 105 105" style="position:absolute;top:0;left:0;"><defs><filter id="s1g"><feGaussianBlur stdDeviation="4"/></filter></defs><g transform="translate(52.5,52.5)" filter="url(#s1g)" opacity="0.45"><ellipse rx="42" ry="18" fill="none" stroke="#F5C4B3" stroke-width="1.8"/><ellipse rx="18" ry="42" fill="none" stroke="#F5C4B3" stroke-width="1.5"/><ellipse rx="42" ry="18" fill="none" stroke="#F5C4B3" stroke-width="1.3" transform="rotate(60)"/><ellipse rx="42" ry="18" fill="none" stroke="#F5C4B3" stroke-width="1.3" transform="rotate(-60)"/><ellipse rx="42" ry="18" fill="none" stroke="#F5C4B3" stroke-width="1" transform="rotate(30)"/><circle r="6" fill="rgba(245,196,179,0.25)"/></g></svg><svg width="105" height="105" viewBox="0 0 105 105" style="position:absolute;top:0;left:0;"><g transform="translate(52.5,52.5)"><ellipse rx="42" ry="42" fill="none" stroke="rgba(245,196,179,0.1)" stroke-width="0.4"/><ellipse rx="42" ry="18" fill="none" stroke="rgba(245,196,179,0.5)" stroke-width="0.6"/><ellipse rx="18" ry="42" fill="none" stroke="rgba(245,196,179,0.4)" stroke-width="0.5"/><ellipse rx="42" ry="18" fill="none" stroke="rgba(245,196,179,0.35)" stroke-width="0.5" transform="rotate(60)"/><ellipse rx="42" ry="18" fill="none" stroke="rgba(245,196,179,0.35)" stroke-width="0.5" transform="rotate(-60)"/><ellipse rx="42" ry="18" fill="none" stroke="rgba(245,196,179,0.25)" stroke-width="0.4" transform="rotate(30)"/><circle r="3" fill="rgba(245,196,179,0.55)"/></g><text x="52.5" y="40" text-anchor="middle" fill="rgba(245,196,179,0.95)" font-size="9" font-weight="500" font-family="Noto Sans JP,sans-serif">推し</text><text x="52.5" y="54" text-anchor="middle" fill="rgba(245,196,179,0.6)" font-size="8" font-family="Noto Sans JP,sans-serif">メンバー</text><text x="52.5" y="65" text-anchor="middle" fill="rgba(245,196,179,0.4)" font-size="7" font-family="Noto Sans JP,sans-serif">番組</text></svg></div><div class="sphere-label" style="color:rgba(245,196,179,0.6);">日向坂語彙</div><div class="sphere-count">63 fragments</div></div>
+          <div class="sphere-item"><div style="width:92px;height:92px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 2s;"><svg width="92" height="92" viewBox="0 0 92 92" style="position:absolute;top:0;left:0;"><defs><filter id="s1h"><feGaussianBlur stdDeviation="3.5"/></filter><filter id="s1hh"><feGaussianBlur stdDeviation="5.5"/></filter></defs><g transform="translate(46,46)" filter="url(#s1hh)" opacity="0.16"><circle r="36" fill="none" stroke="#C0DD97" stroke-width="1.5"/></g><g transform="translate(46,46)" filter="url(#s1h)" opacity="0.4"><ellipse rx="36" ry="16" fill="none" stroke="#C0DD97" stroke-width="1.5"/><ellipse rx="16" ry="36" fill="none" stroke="#C0DD97" stroke-width="1.3"/><ellipse rx="36" ry="16" fill="none" stroke="#C0DD97" stroke-width="1.2" transform="rotate(60)"/><ellipse rx="36" ry="16" fill="none" stroke="#C0DD97" stroke-width="1.2" transform="rotate(-60)"/><circle r="5" fill="rgba(192,221,151,0.2)"/></g></svg><svg width="92" height="92" viewBox="0 0 92 92" style="position:absolute;top:0;left:0;"><g transform="translate(46,46)"><circle r="36" fill="none" stroke="rgba(192,221,151,0.07)" stroke-width="0.5"/><ellipse rx="36" ry="16" fill="none" stroke="rgba(192,221,151,0.45)" stroke-width="0.6"/><ellipse rx="16" ry="36" fill="none" stroke="rgba(192,221,151,0.35)" stroke-width="0.5"/><ellipse rx="36" ry="16" fill="none" stroke="rgba(192,221,151,0.3)" stroke-width="0.4" transform="rotate(60)"/><ellipse rx="36" ry="16" fill="none" stroke="rgba(192,221,151,0.3)" stroke-width="0.4" transform="rotate(-60)"/><circle r="2.5" fill="rgba(192,221,151,0.5)"/></g><text x="46" y="40" text-anchor="middle" fill="rgba(192,221,151,0.95)" font-size="9" font-weight="500" font-family="Noto Sans JP,sans-serif">攻撃</text><text x="46" y="54" text-anchor="middle" fill="rgba(192,221,151,0.5)" font-size="7" font-family="Noto Sans JP,sans-serif">装備</text></svg></div><div class="sphere-label" style="color:rgba(192,221,151,0.6);">ゲーム用語</div><div class="sphere-count">41 fragments</div></div>
+          <div class="sphere-item"><div style="width:56px;height:56px;position:relative;animation:breathe-sphere 4.5s ease-in-out infinite 2.8s;"><svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;top:0;left:0;"><defs><filter id="s1i"><feGaussianBlur stdDeviation="2.5"/></filter><filter id="s1ih"><feGaussianBlur stdDeviation="4.5"/></filter></defs><g transform="translate(28,28)" filter="url(#s1ih)" opacity="0.22"><circle r="20" fill="none" stroke="#D3D1C7" stroke-width="1.5"/></g><g transform="translate(28,28)" filter="url(#s1i)" opacity="0.35"><ellipse rx="20" ry="9" fill="none" stroke="#D3D1C7" stroke-width="1.2"/><ellipse rx="9" ry="20" fill="none" stroke="#D3D1C7" stroke-width="1"/><ellipse rx="20" ry="9" fill="none" stroke="#D3D1C7" stroke-width="0.8" transform="rotate(60)"/><circle r="3" fill="rgba(211,209,199,0.2)"/></g></svg><svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;top:0;left:0;"><g transform="translate(28,28)"><circle r="20" fill="none" stroke="rgba(211,209,199,0.1)" stroke-width="0.5"/><ellipse rx="20" ry="9" fill="none" stroke="rgba(211,209,199,0.35)" stroke-width="0.5"/><ellipse rx="9" ry="20" fill="none" stroke="rgba(211,209,199,0.3)" stroke-width="0.4"/><ellipse rx="20" ry="9" fill="none" stroke="rgba(211,209,199,0.2)" stroke-width="0.4" transform="rotate(60)"/><circle r="2" fill="rgba(211,209,199,0.45)"/></g><text x="28" y="30" text-anchor="middle" fill="rgba(211,209,199,0.85)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">天気</text></svg></div><div class="sphere-label" style="color:rgba(211,209,199,0.5);">天気</div><div class="sphere-count">5 fragments</div></div>
         </div>
-        <div class="sphere-row" style="margin-top:4px;">
-          <div class="sphere-item" style="opacity:0.5;"><div style="position:relative;"><div class="sphere-core" style="width:40px;height:40px;background:radial-gradient(circle at 35% 30%,#5F5E5A,#444441 60%,#2C2C2A);border:0.5px dashed rgba(255,255,255,0.15);"></div></div><div class="sphere-label" style="opacity:0.5;">forming...</div><div class="sphere-count">2/3 links</div></div>
-          <div class="sphere-item" style="opacity:0.4;"><div style="position:relative;"><div class="sphere-core" style="width:36px;height:36px;background:radial-gradient(circle at 35% 30%,#5F5E5A,#444441 60%,#2C2C2A);border:0.5px dashed rgba(255,255,255,0.12);"></div></div><div class="sphere-label" style="opacity:0.4;">forming...</div><div class="sphere-count">1/3 links</div></div>
+        <!-- Row 4: Forming -->
+        <div class="sphere-row" style="margin-top:0;gap:20px;">
+          <div class="sphere-item" style="opacity:0.5;"><div style="width:44px;height:44px;position:relative;"><svg width="44" height="44" viewBox="0 0 44 44"><defs><filter id="s1fh1"><feGaussianBlur stdDeviation="3.5"/></filter></defs><g transform="translate(22,22)" filter="url(#s1fh1)" opacity="0.15"><circle r="16" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/></g><g transform="translate(22,22)"><ellipse rx="16" ry="16" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.4" stroke-dasharray="3,3"/><ellipse rx="16" ry="7" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.3" stroke-dasharray="2,3"/><ellipse rx="7" ry="16" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.3" stroke-dasharray="2,3"/></g></svg></div><div class="sphere-label" style="opacity:0.5;">forming...</div><div class="sphere-count">2/3 links</div></div>
+          <div class="sphere-item" style="opacity:0.4;"><div style="width:40px;height:40px;position:relative;"><svg width="40" height="40" viewBox="0 0 40 40"><defs><filter id="s1fh2"><feGaussianBlur stdDeviation="3"/></filter></defs><g transform="translate(20,20)" filter="url(#s1fh2)" opacity="0.12"><circle r="14" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/></g><g transform="translate(20,20)"><ellipse rx="14" ry="14" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.4" stroke-dasharray="3,3"/><ellipse rx="14" ry="6" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.3" stroke-dasharray="2,3"/><ellipse rx="6" ry="14" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.3" stroke-dasharray="2,3"/></g></svg></div><div class="sphere-label" style="opacity:0.4;">forming...</div><div class="sphere-count">1/3 links</div></div>
         </div>
       </div>
       <div class="fab fab-interactive" id="fab-s1" title="Quick capture"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="24" height="24"><path d="M12 5v14M5 12h14"/></svg></div>
@@ -642,8 +868,9 @@ body {
       </div>
     </div>
     <div class="annotations">
-      <div class="annotation-card"><h4>球体尺寸</h4><p>直径随碎片数量缩放。最大球体（食・料理，52个碎片）= 102px。最小已成型球体（天気，5个）= 52px。</p></div>
-      <div class="annotation-card"><h4>表面关键词</h4><p>球体表面可见2-3个关键词。次要词汇透明度递减。用户无需点击即可识别网络主题。</p></div>
+      <div class="annotation-card"><h4>球体尺寸</h4><p>直径随碎片数量缩放。每个球体由5-7根不同角度的椭圆轨道光束交织构成，线条越密碎片越多。小球体额外加了一层大气光环轮廓以确保辨识度。</p></div>
+      <div class="annotation-card"><h4>表面关键词</h4><p>球体表面可见2-3个关键词。次要词汇透明度递减。文字在清晰的前景层，光束在模糊的背景层，互不干扰。</p></div>
+      <div class="annotation-card"><h4>呼吸动画</h4><p>每个球体有4.5秒周期的scale呼吸动画，错开启动时间产生错落节奏。光束背景层使用高斯模糊制造发光散射效果。</p></div>
       <div class="annotation-card"><h4>新网络徽标</h4><p>琥珀色"!"表示新形成的网络。数字徽标显示上次访问后的新连接数。</p></div>
       <div class="annotation-card"><h4>形成中状态</h4><p>虚线边框 + 降低透明度。进度指示器显示接近阈值的进度（如 2/3）。尚不可点击。</p></div>
       <div class="annotation-card"><h4>颜色编码</h4><p>每个网络拥有唯一的色谱。颜色在所有视图中持续一致，提供空间记忆线索。</p></div>
@@ -788,7 +1015,7 @@ body {
           <div class="notif-header"><div class="notif-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="4"/></svg></div><span class="notif-app-name">ことばの網</span><span class="notif-time">now</span></div>
           <div class="notif-title">New network formed ✦</div>
           <div class="notif-body">「届く」「届ける」「届け出」— connected through kanji 届</div>
-          <div class="notif-spheres"><div class="notif-mini-sphere" style="background:radial-gradient(circle at 35% 30%,#378ADD,#185FA5);"><span style="color:#B5D4F4;">届</span></div><span style="font-size:10px;color:var(--text-tertiary);">←</span><div class="notif-mini-sphere" style="background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56);"><span style="color:#9FE1CB;">駅</span></div><span style="font-size:10px;color:var(--text-tertiary);margin-left:4px;">shared: 届け出</span></div>
+          <div class="notif-spheres"><div class="notif-mini-sphere" style="background:transparent;position:relative;overflow:visible;"><svg width="28" height="28" viewBox="0 0 28 28"><defs><filter id="nm1"><feGaussianBlur stdDeviation="1.5"/></filter></defs><g transform="translate(14,14)" filter="url(#nm1)" opacity="0.4"><ellipse rx="11" ry="5" fill="none" stroke="#85B7EB" stroke-width="0.8"/><ellipse rx="5" ry="11" fill="none" stroke="#85B7EB" stroke-width="0.7"/></g><g transform="translate(14,14)"><ellipse rx="11" ry="5" fill="none" stroke="rgba(133,183,235,0.4)" stroke-width="0.4"/><ellipse rx="5" ry="11" fill="none" stroke="rgba(133,183,235,0.35)" stroke-width="0.4"/><circle r="1.5" fill="rgba(133,183,235,0.5)"/></g><text x="14" y="16" text-anchor="middle" fill="#B5D4F4" font-size="7" font-weight="500" font-family="Noto Sans JP,sans-serif">届</text></svg></div><span style="font-size:10px;color:var(--text-tertiary);">←</span><div class="notif-mini-sphere" style="background:transparent;position:relative;overflow:visible;"><svg width="28" height="28" viewBox="0 0 28 28"><defs><filter id="nm2"><feGaussianBlur stdDeviation="1.5"/></filter></defs><g transform="translate(14,14)" filter="url(#nm2)" opacity="0.4"><ellipse rx="11" ry="5" fill="none" stroke="#5DCAA5" stroke-width="0.8"/><ellipse rx="5" ry="11" fill="none" stroke="#5DCAA5" stroke-width="0.7"/></g><g transform="translate(14,14)"><ellipse rx="11" ry="5" fill="none" stroke="rgba(93,202,165,0.4)" stroke-width="0.4"/><ellipse rx="5" ry="11" fill="none" stroke="rgba(93,202,165,0.35)" stroke-width="0.4"/><circle r="1.5" fill="rgba(93,202,165,0.5)"/></g><text x="14" y="16" text-anchor="middle" fill="#9FE1CB" font-size="7" font-weight="500" font-family="Noto Sans JP,sans-serif">駅</text></svg></div><span style="font-size:10px;color:var(--text-tertiary);margin-left:4px;">shared: 届け出</span></div>
         </div>
         <div class="lock-notif" style="border:0.5px solid rgba(127,119,221,0.12);">
           <div class="notif-header"><div class="notif-app-icon" style="background:linear-gradient(135deg,#534AB7,#7F77DD);"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="4"/></svg></div><span class="notif-app-name">ことばの網</span><span class="notif-time">2h ago</span></div>
@@ -800,12 +1027,12 @@ body {
       <div class="phone-frame" style="width:320px;min-width:320px;height:640px;">
         <div class="status-bar"><span>21:48</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
         <div style="padding:4px 20px 12px;"><div class="app-title" style="font-size:17px;">ことばの網</div><div style="font-size:10px;color:var(--text-tertiary);margin-top:1px;">12 networks · 847 fragments</div></div>
-        <div class="inapp-banner"><div class="banner-glow"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div class="banner-badge">new network</div></div><div class="banner-title">「届」kanji family formed</div><div class="banner-desc">3 fragments connected through shared kanji, conjugation, and your station signage.</div><div class="banner-preview"><div class="banner-sphere-icon" style="background:radial-gradient(circle at 35% 30%,#378ADD,#185FA5 60%,#042C53);"><span style="color:#B5D4F4;font-size:11px;font-weight:500;">届</span></div><div class="banner-words"><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届く</span><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届ける</span><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届け出</span></div></div><div class="banner-hint">tap to explore this network</div></div></div>
-        <div class="sphere-grid-bg">
-          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56 60%,#085041);"><span style="color:#9FE1CB;">駅</span></div>
-          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#EF9F27,#BA7517 60%,#633806);"><span style="color:#FAEEDA;">食</span></div>
-          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#D4537E,#993556 60%,#4B1528);"><span style="color:#F4C0D1;">感</span></div>
-          <div class="bg-sphere" style="background:radial-gradient(circle at 35% 30%,#7F77DD,#534AB7 60%,#26215C);"><span style="color:#CECBF6;">敬</span></div>
+        <div class="inapp-banner"><div class="banner-glow"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div class="banner-badge">new network</div></div><div class="banner-title">「届」kanji family formed</div><div class="banner-desc">3 fragments connected through shared kanji, conjugation, and your station signage.</div><div class="banner-preview"><div class="banner-sphere-icon" style="background:transparent;position:relative;overflow:visible;"><svg width="36" height="36" viewBox="0 0 36 36"><defs><filter id="bs1"><feGaussianBlur stdDeviation="2"/></filter></defs><g transform="translate(18,18)" filter="url(#bs1)" opacity="0.4"><ellipse rx="14" ry="6" fill="none" stroke="#85B7EB" stroke-width="1"/><ellipse rx="6" ry="14" fill="none" stroke="#85B7EB" stroke-width="0.8"/><ellipse rx="14" ry="6" fill="none" stroke="#85B7EB" stroke-width="0.7" transform="rotate(60)"/></g><g transform="translate(18,18)"><ellipse rx="14" ry="6" fill="none" stroke="rgba(133,183,235,0.45)" stroke-width="0.5"/><ellipse rx="6" ry="14" fill="none" stroke="rgba(133,183,235,0.35)" stroke-width="0.4"/><ellipse rx="14" ry="6" fill="none" stroke="rgba(133,183,235,0.3)" stroke-width="0.4" transform="rotate(60)"/><circle r="2" fill="rgba(133,183,235,0.5)"/></g><text x="18" y="20" text-anchor="middle" fill="#B5D4F4" font-size="11" font-weight="500" font-family="Noto Sans JP,sans-serif">届</text></svg></div><div class="banner-words"><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届く</span><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届ける</span><span class="banner-word" style="background:rgba(55,138,221,0.12);color:#85B7EB;border:0.5px solid rgba(55,138,221,0.2);">届け出</span></div></div><div class="banner-hint">tap to explore this network</div></div></div>
+        <div class="sphere-grid-bg" style="gap:12px;">
+          <div style="display:flex;flex-direction:column;align-items:center;"><svg width="60" height="60" viewBox="0 0 60 60"><defs><filter id="bg1"><feGaussianBlur stdDeviation="2"/></filter></defs><g transform="translate(30,30)" filter="url(#bg1)" opacity="0.35"><ellipse rx="24" ry="10" fill="none" stroke="#5DCAA5" stroke-width="1"/><ellipse rx="10" ry="24" fill="none" stroke="#5DCAA5" stroke-width="0.8"/><ellipse rx="24" ry="10" fill="none" stroke="#5DCAA5" stroke-width="0.7" transform="rotate(60)"/></g><g transform="translate(30,30)"><ellipse rx="24" ry="10" fill="none" stroke="rgba(93,202,165,0.3)" stroke-width="0.4"/><ellipse rx="10" ry="24" fill="none" stroke="rgba(93,202,165,0.25)" stroke-width="0.3"/><circle r="1.5" fill="rgba(93,202,165,0.4)"/></g><text x="30" y="32" text-anchor="middle" fill="rgba(159,225,203,0.5)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">駅</text></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><svg width="60" height="60" viewBox="0 0 60 60"><defs><filter id="bg2"><feGaussianBlur stdDeviation="2"/></filter></defs><g transform="translate(30,30)" filter="url(#bg2)" opacity="0.35"><ellipse rx="24" ry="10" fill="none" stroke="#FAC775" stroke-width="1"/><ellipse rx="10" ry="24" fill="none" stroke="#FAC775" stroke-width="0.8"/><ellipse rx="24" ry="10" fill="none" stroke="#FAC775" stroke-width="0.7" transform="rotate(60)"/></g><g transform="translate(30,30)"><ellipse rx="24" ry="10" fill="none" stroke="rgba(250,199,117,0.3)" stroke-width="0.4"/><ellipse rx="10" ry="24" fill="none" stroke="rgba(250,199,117,0.25)" stroke-width="0.3"/><circle r="1.5" fill="rgba(250,199,117,0.4)"/></g><text x="30" y="32" text-anchor="middle" fill="rgba(250,199,117,0.5)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">食</text></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><svg width="60" height="60" viewBox="0 0 60 60"><defs><filter id="bg3"><feGaussianBlur stdDeviation="2"/></filter></defs><g transform="translate(30,30)" filter="url(#bg3)" opacity="0.35"><ellipse rx="24" ry="10" fill="none" stroke="#F4C0D1" stroke-width="1"/><ellipse rx="10" ry="24" fill="none" stroke="#F4C0D1" stroke-width="0.8"/><ellipse rx="24" ry="10" fill="none" stroke="#F4C0D1" stroke-width="0.7" transform="rotate(60)"/></g><g transform="translate(30,30)"><ellipse rx="24" ry="10" fill="none" stroke="rgba(244,192,209,0.3)" stroke-width="0.4"/><ellipse rx="10" ry="24" fill="none" stroke="rgba(244,192,209,0.25)" stroke-width="0.3"/><circle r="1.5" fill="rgba(244,192,209,0.4)"/></g><text x="30" y="32" text-anchor="middle" fill="rgba(244,192,209,0.5)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">感</text></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><svg width="60" height="60" viewBox="0 0 60 60"><defs><filter id="bg4"><feGaussianBlur stdDeviation="2"/></filter></defs><g transform="translate(30,30)" filter="url(#bg4)" opacity="0.35"><ellipse rx="24" ry="10" fill="none" stroke="#CECBF6" stroke-width="1"/><ellipse rx="10" ry="24" fill="none" stroke="#CECBF6" stroke-width="0.8"/><ellipse rx="24" ry="10" fill="none" stroke="#CECBF6" stroke-width="0.7" transform="rotate(60)"/></g><g transform="translate(30,30)"><ellipse rx="24" ry="10" fill="none" stroke="rgba(206,203,246,0.3)" stroke-width="0.4"/><ellipse rx="10" ry="24" fill="none" stroke="rgba(206,203,246,0.25)" stroke-width="0.3"/><circle r="1.5" fill="rgba(206,203,246,0.4)"/></g><text x="30" y="32" text-anchor="middle" fill="rgba(206,203,246,0.5)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">敬</text></svg></div>
         </div>
       </div>
     </div>
@@ -927,12 +1154,12 @@ body {
     <div class="phone-frame" style="height:780px;">
       <div class="status-bar"><span>22:28</span><div class="status-icons"><svg viewBox="0 0 16 16" fill="none"><path d="M1 11h2v4H1zM5 8h2v7H5zM9 5h2v10H9zM13 2h2v13h-2z" fill="rgba(255,255,255,0.6)"/></svg></div></div>
       <div class="app-header"><div><div class="app-title">ことばの網</div><div class="app-subtitle">12 networks · 847 fragments</div></div></div>
-      <!-- Dimmed spheres background -->
+      <!-- Dimmed wireframe spheres background -->
       <div style="padding:12px 16px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;opacity:0.25;">
-        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#1D9E75,#0F6E56 60%,#085041);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#9FE1CB;">駅</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">移動・交通</span></div>
-        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#EF9F27,#BA7517 60%,#633806);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#FAEEDA;">食</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">食・料理</span></div>
-        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#D4537E,#993556 60%,#4B1528);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#F4C0D1;">嬉</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">感情表現</span></div>
-        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:66px;height:66px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7F77DD,#534AB7 60%,#26215C);display:flex;align-items:center;justify-content:center;"><span style="font-family:'Noto Sans JP',sans-serif;font-size:8px;color:#CECBF6;">敬</span></div><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">敬語</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><svg width="72" height="72" viewBox="0 0 72 72"><defs><filter id="w7a"><feGaussianBlur stdDeviation="2.5"/></filter><filter id="w7ah"><feGaussianBlur stdDeviation="4"/></filter></defs><g transform="translate(36,36)" filter="url(#w7ah)" opacity="0.2"><circle r="28" fill="none" stroke="#5DCAA5" stroke-width="1.2"/></g><g transform="translate(36,36)" filter="url(#w7a)" opacity="0.5"><ellipse rx="28" ry="12" fill="none" stroke="#5DCAA5" stroke-width="1.2"/><ellipse rx="12" ry="28" fill="none" stroke="#5DCAA5" stroke-width="1"/><ellipse rx="28" ry="12" fill="none" stroke="#5DCAA5" stroke-width="0.9" transform="rotate(60)"/><ellipse rx="28" ry="12" fill="none" stroke="#5DCAA5" stroke-width="0.9" transform="rotate(-60)"/><circle r="3" fill="rgba(93,202,165,0.3)"/></g><g transform="translate(36,36)"><ellipse rx="28" ry="12" fill="none" stroke="rgba(93,202,165,0.4)" stroke-width="0.5"/><ellipse rx="12" ry="28" fill="none" stroke="rgba(93,202,165,0.3)" stroke-width="0.4"/><circle r="2" fill="rgba(93,202,165,0.5)"/></g><text x="36" y="38" text-anchor="middle" fill="rgba(159,225,203,0.8)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">駅</text></svg><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">移動・交通</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><svg width="82" height="82" viewBox="0 0 82 82"><defs><filter id="w7b"><feGaussianBlur stdDeviation="3"/></filter></defs><g transform="translate(41,41)" filter="url(#w7b)" opacity="0.45"><ellipse rx="32" ry="14" fill="none" stroke="#FAC775" stroke-width="1.3"/><ellipse rx="14" ry="32" fill="none" stroke="#FAC775" stroke-width="1.1"/><ellipse rx="32" ry="14" fill="none" stroke="#FAC775" stroke-width="1" transform="rotate(60)"/><ellipse rx="32" ry="14" fill="none" stroke="#FAC775" stroke-width="1" transform="rotate(-60)"/><ellipse rx="32" ry="14" fill="none" stroke="#FAC775" stroke-width="0.8" transform="rotate(30)"/><circle r="4" fill="rgba(250,199,117,0.25)"/></g><g transform="translate(41,41)"><ellipse rx="32" ry="14" fill="none" stroke="rgba(250,199,117,0.4)" stroke-width="0.5"/><ellipse rx="14" ry="32" fill="none" stroke="rgba(250,199,117,0.3)" stroke-width="0.4"/><circle r="2" fill="rgba(250,199,117,0.5)"/></g><text x="41" y="43" text-anchor="middle" fill="rgba(250,199,117,0.8)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">食</text></svg><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">食・料理</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><svg width="60" height="60" viewBox="0 0 60 60"><defs><filter id="w7c"><feGaussianBlur stdDeviation="2"/></filter><filter id="w7ch"><feGaussianBlur stdDeviation="4"/></filter></defs><g transform="translate(30,30)" filter="url(#w7ch)" opacity="0.2"><circle r="22" fill="none" stroke="#F4C0D1" stroke-width="1.2"/></g><g transform="translate(30,30)" filter="url(#w7c)" opacity="0.45"><ellipse rx="22" ry="10" fill="none" stroke="#F4C0D1" stroke-width="1"/><ellipse rx="10" ry="22" fill="none" stroke="#F4C0D1" stroke-width="0.8"/><ellipse rx="22" ry="10" fill="none" stroke="#F4C0D1" stroke-width="0.7" transform="rotate(60)"/><circle r="3" fill="rgba(244,192,209,0.2)"/></g><g transform="translate(30,30)"><ellipse rx="22" ry="10" fill="none" stroke="rgba(244,192,209,0.3)" stroke-width="0.4"/><circle r="1.5" fill="rgba(244,192,209,0.4)"/></g><text x="30" y="32" text-anchor="middle" fill="rgba(244,192,209,0.7)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">嬉</text></svg><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">感情表現</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;"><svg width="66" height="66" viewBox="0 0 66 66"><defs><filter id="w7d"><feGaussianBlur stdDeviation="2.2"/></filter><filter id="w7dh"><feGaussianBlur stdDeviation="4"/></filter></defs><g transform="translate(33,33)" filter="url(#w7dh)" opacity="0.2"><circle r="25" fill="none" stroke="#CECBF6" stroke-width="1.2"/></g><g transform="translate(33,33)" filter="url(#w7d)" opacity="0.45"><ellipse rx="25" ry="11" fill="none" stroke="#CECBF6" stroke-width="1"/><ellipse rx="11" ry="25" fill="none" stroke="#CECBF6" stroke-width="0.8"/><ellipse rx="25" ry="11" fill="none" stroke="#CECBF6" stroke-width="0.7" transform="rotate(60)"/><circle r="3" fill="rgba(206,203,246,0.2)"/></g><g transform="translate(33,33)"><ellipse rx="25" ry="11" fill="none" stroke="rgba(206,203,246,0.3)" stroke-width="0.4"/><circle r="1.5" fill="rgba(206,203,246,0.4)"/></g><text x="33" y="35" text-anchor="middle" fill="rgba(206,203,246,0.7)" font-size="8" font-weight="500" font-family="Noto Sans JP,sans-serif">敬</text></svg><span style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:6px;">敬語</span></div>
       </div>
       <!-- Long-press ripple + guide bubble -->
       <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;z-index:10;">
